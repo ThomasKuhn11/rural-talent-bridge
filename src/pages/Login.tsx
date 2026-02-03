@@ -35,23 +35,6 @@ const Login = () => {
     setIsLoading(false);
   };
 
-  const handleDemoLogin = async (type: 'professional' | 'employer') => {
-    setIsLoading(true);
-    const demoEmail = type === 'professional' ? 'worker@demo.com' : 'farm@demo.com';
-    const demoPassword = 'demo123';
-    
-    const result = await login(demoEmail, demoPassword);
-    
-    if (result.success) {
-      toast.success(t('common.success'));
-      navigate('/dashboard');
-    } else {
-      toast.error(t(result.error || 'auth.loginError'));
-    }
-    
-    setIsLoading(false);
-  };
-
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col">
       {/* Header */}
@@ -68,7 +51,7 @@ const Login = () => {
 
       {/* Login Form */}
       <div className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-md">
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">{t('auth.login')}</CardTitle>
@@ -109,43 +92,6 @@ const Login = () => {
                 <Link to="/signup" className="text-primary hover:underline font-medium">
                   {t('auth.signup')}
                 </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Demo Accounts */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">{t('auth.demoAccounts')}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                <div>
-                  <p className="font-medium text-sm">{t('auth.professional')}</p>
-                  <p className="text-xs text-muted-foreground">worker@demo.com / demo123</p>
-                </div>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  onClick={() => handleDemoLogin('professional')}
-                  disabled={isLoading}
-                >
-                  {t('auth.login')}
-                </Button>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                <div>
-                  <p className="font-medium text-sm">{t('auth.employer')}</p>
-                  <p className="text-xs text-muted-foreground">farm@demo.com / demo123</p>
-                </div>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  onClick={() => handleDemoLogin('employer')}
-                  disabled={isLoading}
-                >
-                  {t('auth.login')}
-                </Button>
               </div>
             </CardContent>
           </Card>
