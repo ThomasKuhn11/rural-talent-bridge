@@ -40,8 +40,13 @@ const Signup = () => {
     const result = await signup(email, password, role);
     
     if (result.success) {
-      toast.success(t('common.success'));
-      navigate('/dashboard');
+      if (result.error === 'auth.checkEmail') {
+        toast.success(t('auth.checkEmail'));
+        navigate('/login');
+      } else {
+        toast.success(t('common.success'));
+        navigate('/dashboard');
+      }
     } else {
       toast.error(t(result.error || 'auth.signupError'));
     }

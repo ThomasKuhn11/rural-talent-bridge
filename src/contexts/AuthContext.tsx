@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Session, User as SupabaseUser } from '@supabase/supabase-js';
 
 export type UserRole = 'professional' | 'employer';
 
@@ -14,20 +16,42 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signup: (email: string, password: string, role: UserRole) => Promise<{ success: boolean; error?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Helper to get users from localStorage
-const getStoredUsers = (): { email: string; password: string; id: string; role: UserRole; createdAt: string }[] => {
-  const stored = localStorage.getItem('trampo-users');
-  return stored ? JSON.parse(stored) : [];
+// Fetch user role from user_roles table
+const fetchUserRole = async (userId: string): Promise<UserRole | null> => {
+  const { data, error } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', userId)
+    .maybeSingle();
+  
+  if (error) {
+    console.error('Error fetching user role:', error);
+    return null;
+  }
+  
+  return data?.role as UserRole | null;
 };
 
-// Helper to save users to localStorage
-const saveUsers = (users: { email: string; password: string; id: string; role: UserRole; createdAt: string }[]) => {
-  localStorage.setItem('trampo-users', JSON.stringify(users));
+// Convert Supabase user to app User
+const toAppUser = async (supabaseUser: SupabaseUser): Promise<User | null> => {
+  const role = await fetchUserRole(supabaseUser.id);
+  
+  if (!role) {
+    console.error('No role found for user:', supabaseUser.id);
+    return null;
+  }
+  
+  return {
+    id: supabaseUser.id,
+    email: supabaseUser.email || '',
+    role,
+    createdAt: supabaseUser.created_at,
+  };
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -35,68 +59,100 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Set up auth state listener BEFORE checking session
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session?.user) {
+          // Use setTimeout to avoid potential race conditions with Supabase
+          setTimeout(async () => {
+            const appUser = await toAppUser(session.user);
+            setUser(appUser);
+            setIsLoading(false);
+          }, 0);
+        } else {
+          setUser(null);
+          setIsLoading(false);
+        }
+      }
+    );
+
     // Check for existing session
-    const storedUser = localStorage.getItem('trampo-current-user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session?.user) {
+        const appUser = await toAppUser(session.user);
+        setUser(appUser);
+      }
+      setIsLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    const users = getStoredUsers();
-    const foundUser = users.find(u => u.email === email && u.password === password);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     
-    if (foundUser) {
-      const loggedInUser: User = {
-        id: foundUser.id,
-        email: foundUser.email,
-        role: foundUser.role,
-        createdAt: foundUser.createdAt,
-      };
-      setUser(loggedInUser);
-      localStorage.setItem('trampo-current-user', JSON.stringify(loggedInUser));
-      return { success: true };
+    if (error) {
+      console.error('Login error:', error);
+      return { success: false, error: 'auth.loginError' };
+    }
+    
+    if (data.user) {
+      const appUser = await toAppUser(data.user);
+      if (appUser) {
+        setUser(appUser);
+        return { success: true };
+      }
+      return { success: false, error: 'auth.noRoleAssigned' };
     }
     
     return { success: false, error: 'auth.loginError' };
   };
 
   const signup = async (email: string, password: string, role: UserRole): Promise<{ success: boolean; error?: string }> => {
-    const users = getStoredUsers();
-    
-    // Check if email already exists
-    if (users.find(u => u.email === email)) {
-      return { success: false, error: 'auth.emailExists' };
-    }
-    
-    const newUser = {
-      id: crypto.randomUUID(),
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      role,
-      createdAt: new Date().toISOString(),
-    };
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: {
+          role, // Store role in user metadata for the trigger to use
+        },
+      },
+    });
     
-    users.push(newUser);
-    saveUsers(users);
+    if (error) {
+      console.error('Signup error:', error);
+      if (error.message.includes('already registered')) {
+        return { success: false, error: 'auth.emailExists' };
+      }
+      return { success: false, error: 'auth.signupError' };
+    }
     
-    const loggedInUser: User = {
-      id: newUser.id,
-      email: newUser.email,
-      role: newUser.role,
-      createdAt: newUser.createdAt,
-    };
+    if (data.user) {
+      // If email confirmation is required, user won't be logged in yet
+      if (!data.session) {
+        return { success: true, error: 'auth.checkEmail' };
+      }
+      
+      // User is logged in, fetch their role
+      const appUser = await toAppUser(data.user);
+      if (appUser) {
+        setUser(appUser);
+        return { success: true };
+      }
+    }
     
-    setUser(loggedInUser);
-    localStorage.setItem('trampo-current-user', JSON.stringify(loggedInUser));
-    
-    return { success: true };
+    return { success: true }; // Signup succeeded but may need email confirmation
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('trampo-current-user');
   };
 
   return (
