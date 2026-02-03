@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tractor, ArrowLeft, Users, Briefcase, Check } from 'lucide-react';
+import { Tractor, ArrowLeft, Users, Briefcase, Check, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -21,6 +21,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showEmailConfirmation, setShowEmailConfirmation] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,14 +41,61 @@ const Signup = () => {
     const result = await signup(email, password, role);
     
     if (result.success) {
-      toast.success(t('common.success'));
-      navigate('/dashboard');
+      // Show email confirmation message instead of redirecting
+      setShowEmailConfirmation(true);
+      toast.success(t('auth.signupSuccess'));
     } else {
       toast.error(t(result.error || 'auth.signupError'));
     }
     
     setIsLoading(false);
   };
+
+  // Show email confirmation screen after successful signup
+  if (showEmailConfirmation) {
+    return (
+      <div className="min-h-screen bg-muted/30 flex flex-col">
+        {/* Header */}
+        <header className="border-b bg-card">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <ArrowLeft className="h-5 w-5 text-muted-foreground" />
+              <Tractor className="h-8 w-8 text-accent" />
+              <span className="text-xl font-bold text-foreground">{t('landing.title')}</span>
+            </Link>
+            <LanguageToggle />
+          </div>
+        </header>
+
+        {/* Email Confirmation Message */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md text-center">
+            <CardHeader>
+              <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                <Mail className="h-8 w-8 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">{t('auth.checkEmail')}</CardTitle>
+              <CardDescription className="mt-2">
+                {t('auth.emailSentTo').replace('{email}', email)}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                {t('auth.clickLinkToConfirm')}
+              </p>
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => navigate('/login')}
+              >
+                {t('auth.goToLogin')}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col">

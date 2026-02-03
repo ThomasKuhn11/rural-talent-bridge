@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export type UserRole = 'professional' | 'employer';
 
@@ -19,43 +21,87 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Helper to get users from localStorage
-const getStoredUsers = (): { email: string; password: string; id: string; role: UserRole; createdAt: string }[] => {
-  const stored = localStorage.getItem('trampo-users');
-  return stored ? JSON.parse(stored) : [];
-};
-
-// Helper to save users to localStorage
-const saveUsers = (users: { email: string; password: string; id: string; role: UserRole; createdAt: string }[]) => {
-  localStorage.setItem('trampo-users', JSON.stringify(users));
-};
-
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Check for existing session
-    const storedUser = localStorage.getItem('trampo-current-user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  // Helper to fetch user role from user_roles table
+  const fetchUserRole = async (userId: string): Promise<UserRole | null> => {
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .single();
+    
+    if (error || !data) {
+      console.error('Error fetching user role:', error);
+      return null;
     }
-    setIsLoading(false);
+    
+    return data.role as UserRole;
+  };
+
+  // Build User object from Supabase user and role
+  const buildUser = async (supabaseUser: SupabaseUser): Promise<User | null> => {
+    const role = await fetchUserRole(supabaseUser.id);
+    if (!role) return null;
+    
+    return {
+      id: supabaseUser.id,
+      email: supabaseUser.email || '',
+      role,
+      createdAt: supabaseUser.created_at,
+    };
+  };
+
+  useEffect(() => {
+    // Set up auth state listener BEFORE checking session
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        // Use setTimeout to avoid blocking the auth state change
+        setTimeout(async () => {
+          const appUser = await buildUser(session.user);
+          setUser(appUser);
+          setIsLoading(false);
+        }, 0);
+      } else {
+        setUser(null);
+        setIsLoading(false);
+      }
+    });
+
+    // Check for existing session
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session?.user) {
+        const appUser = await buildUser(session.user);
+        setUser(appUser);
+      }
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    const users = getStoredUsers();
-    const foundUser = users.find(u => u.email === email && u.password === password);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     
-    if (foundUser) {
-      const loggedInUser: User = {
-        id: foundUser.id,
-        email: foundUser.email,
-        role: foundUser.role,
-        createdAt: foundUser.createdAt,
-      };
-      setUser(loggedInUser);
-      localStorage.setItem('trampo-current-user', JSON.stringify(loggedInUser));
+    if (error) {
+      console.error('Login error:', error);
+      if (error.message.includes('Email not confirmed')) {
+        return { success: false, error: 'auth.emailNotConfirmed' };
+      }
+      return { success: false, error: 'auth.loginError' };
+    }
+    
+    if (data.user) {
+      const appUser = await buildUser(data.user);
+      if (!appUser) {
+        return { success: false, error: 'auth.loginError' };
+      }
+      setUser(appUser);
       return { success: true };
     }
     
@@ -63,40 +109,63 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const signup = async (email: string, password: string, role: UserRole): Promise<{ success: boolean; error?: string }> => {
-    const users = getStoredUsers();
-    
-    // Check if email already exists
-    if (users.find(u => u.email === email)) {
-      return { success: false, error: 'auth.emailExists' };
-    }
-    
-    const newUser = {
-      id: crypto.randomUUID(),
+    // Sign up with Supabase Auth
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      role,
-      createdAt: new Date().toISOString(),
-    };
+      options: {
+        emailRedirectTo: window.location.origin,
+      },
+    });
     
-    users.push(newUser);
-    saveUsers(users);
+    if (error) {
+      console.error('Signup error:', error);
+      if (error.message.includes('already registered')) {
+        return { success: false, error: 'auth.emailExists' };
+      }
+      return { success: false, error: 'auth.signupError' };
+    }
     
-    const loggedInUser: User = {
-      id: newUser.id,
-      email: newUser.email,
-      role: newUser.role,
-      createdAt: newUser.createdAt,
-    };
+    if (data.user) {
+      // Insert user role
+      const { error: roleError } = await supabase
+        .from('user_roles')
+        .insert({ user_id: data.user.id, role });
+      
+      if (roleError) {
+        console.error('Error creating user role:', roleError);
+        return { success: false, error: 'auth.signupError' };
+      }
+      
+      // Create empty profile based on role
+      if (role === 'professional') {
+        const { error: profileError } = await supabase
+          .from('professional_profiles')
+          .insert({ user_id: data.user.id });
+        
+        if (profileError) {
+          console.error('Error creating professional profile:', profileError);
+        }
+      } else {
+        const { error: profileError } = await supabase
+          .from('employer_profiles')
+          .insert({ user_id: data.user.id });
+        
+        if (profileError) {
+          console.error('Error creating employer profile:', profileError);
+        }
+      }
+      
+      // Return success - user needs to confirm email
+      return { success: true };
+    }
     
-    setUser(loggedInUser);
-    localStorage.setItem('trampo-current-user', JSON.stringify(loggedInUser));
-    
-    return { success: true };
+    return { success: false, error: 'auth.signupError' };
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('trampo-current-user');
   };
 
   return (

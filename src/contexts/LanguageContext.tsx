@@ -113,6 +113,30 @@ const translations: Translations = {
     'pt-BR': 'Este e-mail já está cadastrado',
     'en': 'This email is already registered',
   },
+  'auth.checkEmail': {
+    'pt-BR': 'Verifique seu e-mail',
+    'en': 'Check your email',
+  },
+  'auth.emailSentTo': {
+    'pt-BR': 'Enviamos um link de confirmação para {email}',
+    'en': 'We sent a confirmation link to {email}',
+  },
+  'auth.clickLinkToConfirm': {
+    'pt-BR': 'Clique no link no e-mail para confirmar sua conta e poder fazer login.',
+    'en': 'Click the link in the email to confirm your account and be able to log in.',
+  },
+  'auth.goToLogin': {
+    'pt-BR': 'Ir para o Login',
+    'en': 'Go to Login',
+  },
+  'auth.signupSuccess': {
+    'pt-BR': 'Conta criada! Verifique seu e-mail.',
+    'en': 'Account created! Check your email.',
+  },
+  'auth.emailNotConfirmed': {
+    'pt-BR': 'Por favor, confirme seu e-mail antes de entrar',
+    'en': 'Please confirm your email before logging in',
+  },
 
   // Navigation
   'nav.dashboard': {
