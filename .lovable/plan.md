@@ -1,133 +1,130 @@
 
-# Real User Authentication with Supabase
 
-## Overview
-We'll migrate from localStorage-based mock authentication to real Supabase authentication, enabling:
-- Real email signup with verification
-- Secure password storage and login
-- Data persistence in a real database
-- Multi-device access for users
+## Trampo no Campo - MVP Implementation Plan
+
+### Overview
+A mobile-first professional networking platform for Brazilian agribusiness, connecting rural workers with farms and agricultural companies. Modern, professional design with bilingual support (PT-BR default + English toggle).
 
 ---
 
-## Phase 1: Enable Supabase
-**First step - requires your approval**
+### Phase 1: Foundation & Authentication
+**Goal: Working signup/login with role selection**
 
-I'll enable Lovable Cloud (managed Supabase) which will:
-- Create a Supabase project automatically
-- Set up authentication infrastructure
-- Provide a PostgreSQL database for all app data
-
----
-
-## Phase 2: Database Schema
-
-We'll create these tables to store all user and app data:
-
-### User Roles Table (Security)
-```text
-user_roles
-  - id (uuid, primary key)
-  - user_id (references auth.users)
-  - role ('professional' | 'employer')
-```
-
-### Professional Profiles
-```text
-professional_profiles
-  - id (uuid, primary key)
-  - user_id (references auth.users)
-  - full_name, photo_url, city, state
-  - main_role, years_experience
-  - availability, bio, skills (array)
-```
-
-### Employer Profiles
-```text
-employer_profiles
-  - id (uuid, primary key)
-  - user_id (references auth.users)
-  - company_name, city, state
-  - employer_type, description, contact_phone
-```
-
-### Jobs, Applications, Messages
-Same structure as current types but with proper foreign keys and timestamps.
+- **Landing page** with hero section explaining the platform, featuring "Entrar" (Login) and "Cadastrar" (Sign up) buttons
+- **Authentication system** with email/password
+- **Role selection** during signup: "Profissional" or "Empregador"
+- **Language toggle** (🇧🇷/🇺🇸) in the header
+- Role-based routing to different dashboards after login
 
 ---
 
-## Phase 3: Row Level Security (RLS)
-**Data protection rules**
+### Phase 2: Database & Core Data Model
+**Goal: Backend structure that persists all data**
 
-- Users can only read/update their own profiles
-- Jobs are publicly readable, but only employers can create/edit their own jobs
-- Applications: professionals see their own, employers see applications to their jobs
-- Messages: users can only see conversations they're part of
+We'll set up these tables in Supabase:
+- **profiles** (user_id, role, language preference)
+- **professional_profiles** (full_name, photo, city, state, main_role, experience, availability, bio, skills)
+- **employer_profiles** (company_name, city, state, employer_type, description, contact_phone)
+- **jobs** (employer_id, title, location, job_type, requirements, salary, benefits)
+- **applications** (job_id, professional_id, status)
+- **messages** (from_user, to_user, body, timestamp)
 
----
-
-## Phase 4: Code Migration
-
-### AuthContext Updates
-- Replace localStorage with Supabase Auth
-- Real `signUp()` with email verification
-- Real `signIn()` with password
-- Session management with `onAuthStateChange`
-
-### Data Hooks Updates
-- Replace localStorage hooks with Supabase queries
-- Use React Query for caching and real-time updates
-- Add proper error handling
-
-### Page Updates
-- Login/Signup pages call Supabase Auth
-- All data pages use new Supabase hooks
-- Add email verification flow
+Proper Row Level Security (RLS) policies for data protection.
 
 ---
 
-## Phase 5: Demo Data Seeding
-- Create SQL script to seed demo data
-- Keep demo accounts (worker@demo.com, farm@demo.com) working
-- Allow real signups alongside demo accounts
+### Phase 3: Professional Worker Flow
+**Goal: Complete journey from signup to job application**
+
+- **Professional Dashboard** - Welcome message, quick stats (applications sent, messages), and navigation
+- **Profile page** - Create/edit profile with:
+  - Photo upload
+  - Personal info (name, city, state)
+  - Professional details (main role, years of experience)
+  - Skills tags
+  - Availability status
+  - Bio
+- **Jobs Feed** - List of available positions with:
+  - Job cards showing title, company, location, job type
+  - Quick preview of requirements
+- **Job Detail page** - Full job information with "Candidatar-se" (Apply) button
+- **My Applications page** - Track all submitted applications with status (Applied, Shortlisted, Rejected, Hired)
+- **Messages page** - Chat interface to communicate with employers
 
 ---
 
-## What Changes for Users
+### Phase 4: Employer Flow
+**Goal: Complete journey from signup to hiring**
 
-| Before (localStorage) | After (Supabase) |
-|----------------------|------------------|
-| Data only in browser | Data saved to cloud |
-| No email verification | Real email verification |
-| Anyone can claim any email | Secure, verified accounts |
-| Data lost on browser clear | Persistent across devices |
-| Demo only | Ready for real testing |
+- **Employer Dashboard** - Overview of posted jobs, new applications, messages
+- **Company Profile page** - Create/edit with:
+  - Company name and type (Farm, Cooperative, Retailer, Service Provider)
+  - Location (city, state)
+  - Description
+  - Contact information
+- **Post Job page** - Form to create new job listing:
+  - Job title
+  - Location
+  - Type (Permanent/Seasonal)
+  - Requirements
+  - Salary (optional)
+  - Benefits (optional)
+- **My Jobs page** - List of all posted jobs with applicant count
+- **Applicants page** - View candidates per job, click to see full profile
+- **Messages page** - Chat interface to communicate with candidates
 
 ---
 
-## Next Steps
+### Phase 5: Messaging System
+**Goal: Real-time communication between users**
 
-1. **Enable Supabase** - I'll trigger the connection
-2. **Create database schema** - Tables and RLS policies
-3. **Update AuthContext** - Real authentication
-4. **Update data hooks** - Real database queries
-5. **Test complete flow** - Signup, login, all features
+- Chat interface between professional and employer
+- Message threads organized by conversation
+- Real-time message updates (using Supabase realtime)
+- Notification indicator for unread messages
 
 ---
 
-## Technical Details
+### Phase 6: Demo Data & Polish
+**Goal: Platform looks alive and ready for presentation**
 
-### Security Architecture
-- Roles stored in separate `user_roles` table (prevents privilege escalation)
-- RLS policies use security definer functions
-- No sensitive data exposed through SELECT policies
+**Seed Data:**
+- 8 professional profiles (tractor operators, agronomists, veterinarians, etc.)
+- 3 employer profiles (farms and agricultural companies)
+- 10 job postings across employers
+- Sample applications and message threads
 
-### Trigger for Role Assignment
-When a user signs up, a trigger will:
-1. Create entry in `user_roles` with their selected role
-2. Create empty profile in appropriate table (professional or employer)
+**Demo Accounts (displayed on login page):**
+- Professional: `worker@demo.com` / `demo123`
+- Employer: `farm@demo.com` / `demo123`
 
-### Migration Strategy
-- Keep demo data seeding for testing
-- Existing localStorage data won't transfer (fresh start)
-- Demo accounts will work immediately after setup
+**UI Polish:**
+- Success confirmations for all actions
+- Loading states
+- Error handling
+- Mobile-responsive navigation
+- Clean, professional styling with subtle green accents
+
+---
+
+### Design System
+- **Primary color**: Professional blue (#3B82F6)
+- **Accent color**: Agricultural green (#22C55E)
+- **Clean white backgrounds** with subtle gray cards
+- **Mobile-first** responsive layout
+- **Clear typography** in Portuguese (PT-BR)
+
+---
+
+### Demo Flow Script
+After implementation, I'll provide step-by-step instructions for your mentor presentation showing both complete user journeys.
+
+---
+
+### Technical Notes
+- Built with React + TypeScript + Tailwind CSS
+- Backend: Lovable Cloud (Supabase)
+- Authentication: Supabase Auth
+- Real-time: Supabase Realtime for messaging
+- Fully deployable to a shareable URL
+

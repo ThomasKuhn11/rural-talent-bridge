@@ -113,14 +113,6 @@ const translations: Translations = {
     'pt-BR': 'Este e-mail já está cadastrado',
     'en': 'This email is already registered',
   },
-  'auth.checkEmail': {
-    'pt-BR': 'Verifique seu e-mail para confirmar o cadastro',
-    'en': 'Check your email to confirm your registration',
-  },
-  'auth.noRoleAssigned': {
-    'pt-BR': 'Erro ao carregar perfil. Tente novamente.',
-    'en': 'Error loading profile. Please try again.',
-  },
 
   // Navigation
   'nav.dashboard': {
