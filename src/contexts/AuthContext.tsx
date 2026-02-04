@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
-export type UserRole = 'professional' | 'employer';
+export type UserRole = "professional" | "employer";
 
 export interface User {
   id: string;
@@ -27,17 +27,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Helper to fetch user role from user_roles table
   const fetchUserRole = async (userId: string): Promise<UserRole | null> => {
-    const { data, error } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', userId)
-      .single();
-    
+    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId).single();
+
     if (error || !data) {
-      console.error('Error fetching user role:', error);
+      console.error("Error fetching user role:", error);
       return null;
     }
-    
+
     return data.role as UserRole;
   };
 
@@ -45,10 +41,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const buildUser = async (supabaseUser: SupabaseUser): Promise<User | null> => {
     const role = await fetchUserRole(supabaseUser.id);
     if (!role) return null;
-    
+
     return {
       id: supabaseUser.id,
-      email: supabaseUser.email || '',
+      email: supabaseUser.email || "",
       role,
       createdAt: supabaseUser.created_at,
     };
@@ -56,7 +52,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     // Set up auth state listener BEFORE checking session
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         // Use setTimeout to avoid blocking the auth state change
         setTimeout(async () => {
@@ -87,28 +85,33 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       email,
       password,
     });
-    
+
     if (error) {
-      console.error('Login error:', error);
-      if (error.message.includes('Email not confirmed')) {
-        return { success: false, error: 'auth.emailNotConfirmed' };
+      console.error("Login error:", error);
+      if (error.message.includes("Email not confirmed")) {
+        return { success: false, error: "auth.emailNotConfirmed" };
       }
-      return { success: false, error: 'auth.loginError' };
+      return { success: false, error: "auth.loginError" };
     }
-    
+
     if (data.user) {
       const appUser = await buildUser(data.user);
       if (!appUser) {
-        return { success: false, error: 'auth.loginError' };
+        return { success: false, error: "auth.loginError" };
       }
       setUser(appUser);
       return { success: true };
     }
-    
-    return { success: false, error: 'auth.loginError' };
+
+    return { success: false, error: "auth.loginError" };
   };
 
-  const signup = async (email: string, password: string, role: UserRole): Promise<{ success: boolean; error?: string }> => {
+  const signup = async (
+    email: string,
+    password: string,
+    role: UserRole,
+  ): Promise<{ success: boolean; error?: string }> => {
+    console.log(signup);
     // Sign up with Supabase Auth
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -117,50 +120,44 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         emailRedirectTo: window.location.origin,
       },
     });
-    
+
     if (error) {
-      console.error('Signup error:', error);
-      if (error.message.includes('already registered')) {
-        return { success: false, error: 'auth.emailExists' };
+      console.error("Signup error:", error);
+      if (error.message.includes("already registered")) {
+        return { success: false, error: "auth.emailExists" };
       }
-      return { success: false, error: 'auth.signupError' };
+      return { success: false, error: "auth.signupError" };
     }
-    
+
     if (data.user) {
       // Insert user role
-      const { error: roleError } = await supabase
-        .from('user_roles')
-        .insert({ user_id: data.user.id, role });
-      
+      const { error: roleError } = await supabase.from("user_roles").insert({ user_id: data.user.id, role });
+
       if (roleError) {
-        console.error('Error creating user role:', roleError);
-        return { success: false, error: 'auth.signupError' };
+        console.error("Error creating user role:", roleError);
+        return { success: false, error: "auth.signupError" };
       }
-      
+
       // Create empty profile based on role
-      if (role === 'professional') {
-        const { error: profileError } = await supabase
-          .from('professional_profiles')
-          .insert({ user_id: data.user.id });
-        
+      if (role === "professional") {
+        const { error: profileError } = await supabase.from("professional_profiles").insert({ user_id: data.user.id });
+
         if (profileError) {
-          console.error('Error creating professional profile:', profileError);
+          console.error("Error creating professional profile:", profileError);
         }
       } else {
-        const { error: profileError } = await supabase
-          .from('employer_profiles')
-          .insert({ user_id: data.user.id });
-        
+        const { error: profileError } = await supabase.from("employer_profiles").insert({ user_id: data.user.id });
+
         if (profileError) {
-          console.error('Error creating employer profile:', profileError);
+          console.error("Error creating employer profile:", profileError);
         }
       }
-      
+
       // Return success - user needs to confirm email
       return { success: true };
     }
-    
-    return { success: false, error: 'auth.signupError' };
+
+    return { success: false, error: "auth.signupError" };
   };
 
   const logout = async () => {
@@ -168,17 +165,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(null);
   };
 
-  return (
-    <AuthContext.Provider value={{ user, isLoading, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, isLoading, login, signup, logout }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
