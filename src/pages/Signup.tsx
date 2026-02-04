@@ -223,11 +223,23 @@ const Signup = () => {
                     type="button" 
                     variant="outline"
                     onClick={async () => {
-                      if (!role) return;
-                      const { data, error } = await import('@/integrations/supabase/client').then(m => 
-                        m.supabase.auth.signUp({ email, password })
-                      );
+                      console.log('Debug - email usado:', email);
+                      console.log('Debug - password usado:', password);
+                      console.log('Debug - role:', role);
+                      
+                      if (!email || !password) {
+                        console.log('Debug - ERRO: email ou password vazios!');
+                        return;
+                      }
+                      
+                      const { supabase } = await import('@/integrations/supabase/client');
+                      const { data, error } = await supabase.auth.signUp({ 
+                        email, 
+                        password 
+                      });
+                      console.log('Debug - data completo:', data);
                       console.log('Debug - data.user:', data?.user);
+                      console.log('Debug - data.session:', data?.session);
                       console.log('Debug - error:', error);
                     }}
                   >
