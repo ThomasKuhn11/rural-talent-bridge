@@ -215,9 +215,25 @@ const Signup = () => {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full" disabled={isLoading || !role}>
-                  {isLoading ? t('common.loading') : t('auth.signup')}
-                </Button>
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1" disabled={isLoading || !role}>
+                    {isLoading ? t('common.loading') : t('auth.signup')}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={async () => {
+                      if (!role) return;
+                      const { data, error } = await import('@/integrations/supabase/client').then(m => 
+                        m.supabase.auth.signUp({ email, password })
+                      );
+                      console.log('Debug - data.user:', data?.user);
+                      console.log('Debug - error:', error);
+                    }}
+                  >
+                    Debug
+                  </Button>
+                </div>
               </form>
               
               <div className="mt-4 text-center text-sm text-muted-foreground">
