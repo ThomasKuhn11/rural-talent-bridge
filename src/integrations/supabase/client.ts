@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Environment variables loaded at build time
+// Supabase connection using external project credentials
 const SUPABASE_URL = import.meta.env.VITE_EXTERNAL_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_EXTERNAL_SUPABASE_ANON_KEY;
 
