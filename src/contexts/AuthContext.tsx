@@ -111,7 +111,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     password: string,
     role: UserRole,
   ): Promise<{ success: boolean; error?: string }> => {
-    console.log(signup);
     // Sign up with Supabase Auth
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -131,6 +130,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     if (data.user) {
       // Insert user role
+      console.log(data);
       const { error: roleError } = await supabase.from("user_roles").insert({ user_id: data.user.id, role });
 
       if (roleError) {
