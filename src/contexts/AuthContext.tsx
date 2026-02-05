@@ -144,7 +144,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (error.message?.toLowerCase().includes("already")) {
         return { success: false, error: "auth.emailExists" };
       }
-      return { success: false, error: "auth.signupError, cacete" };
+      return { success: false, error: "auth.signupError" };
     }
 
     if (data.user) {
