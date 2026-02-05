@@ -154,7 +154,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       if (roleError) {
         console.error("Error creating user role:", roleError);
-        return { success: false, error: "auth.signupError, caralho" };
+        return { success: false, error: "auth.signupError" };
       }
 
       // Create empty profile based on role
