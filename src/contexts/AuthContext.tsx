@@ -27,14 +27,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Helper to fetch user role from user_roles table
   const fetchUserRole = async (userId: string): Promise<UserRole | null> => {
-    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId).single();
+    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle();
 
-    if (error || !data) {
+    if (error) {
       console.error("Error fetching user role:", error);
       return null;
     }
-
-    return data.role as UserRole;
+    return (data?.role as UserRole) ?? null;
   };
 
   // Build User object from Supabase user and role
