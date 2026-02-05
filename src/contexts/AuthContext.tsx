@@ -156,7 +156,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return { success: true };
     }
 
-    return { success: false, error: "auth.signupError, pimba };
+    return { success: false, error: "auth.signupError" };
   };
 
   const logout = async () => {
