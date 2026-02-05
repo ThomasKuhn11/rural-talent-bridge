@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Jobs from "./pages/Jobs";
 import JobDetail from "./pages/JobDetail";
 import PostJob from "./pages/PostJob";
+import EditJob from "./pages/EditJob";
 import MyJobs from "./pages/MyJobs";
 import Applications from "./pages/Applications";
 import Applicants from "./pages/Applicants";
@@ -55,6 +56,7 @@ const App = () => (
               {/* Protected Routes - Employers */}
               <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
                 <Route path="/post-job" element={<PostJob />} />
+                <Route path="/edit-job/:id" element={<EditJob />} />
                 <Route path="/my-jobs" element={<MyJobs />} />
                 <Route path="/applicants/:jobId" element={<Applicants />} />
               </Route>

@@ -222,7 +222,45 @@ export const useJobs = () => {
     } as Job : null;
   }, [fetchJobs]);
 
-  return { jobs, getJob, getJobsByEmployer, addJob, isLoading, refreshJobs: fetchJobs };
+  const updateJob = useCallback(async (jobId: string, updates: Partial<Omit<Job, 'id' | 'createdAt' | 'employerId'>>) => {
+    const { error } = await supabase
+      .from('jobs')
+      .update({
+        title: updates.title,
+        city: updates.city,
+        state: updates.state,
+        job_type: updates.jobType,
+        requirements: updates.requirements,
+        salary: updates.salary,
+        benefits: updates.benefits,
+      })
+      .eq('id', jobId);
+    
+    if (error) {
+      console.error('Error updating job:', error);
+      return false;
+    }
+    
+    await fetchJobs();
+    return true;
+  }, [fetchJobs]);
+
+  const deleteJob = useCallback(async (jobId: string) => {
+    const { error } = await supabase
+      .from('jobs')
+      .delete()
+      .eq('id', jobId);
+    
+    if (error) {
+      console.error('Error deleting job:', error);
+      return false;
+    }
+    
+    await fetchJobs();
+    return true;
+  }, [fetchJobs]);
+
+  return { jobs, getJob, getJobsByEmployer, addJob, updateJob, deleteJob, isLoading, refreshJobs: fetchJobs };
 };
 
 // Applications

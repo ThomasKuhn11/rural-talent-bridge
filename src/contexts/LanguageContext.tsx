@@ -329,6 +329,34 @@ const translations: Translations = {
     'pt-BR': 'Nenhuma vaga encontrada',
     'en': 'No jobs found',
   },
+  'jobs.editJob': {
+    'pt-BR': 'Editar Vaga',
+    'en': 'Edit Job',
+  },
+  'jobs.deleteJob': {
+    'pt-BR': 'Excluir Vaga',
+    'en': 'Delete Job',
+  },
+  'jobs.jobUpdated': {
+    'pt-BR': 'Vaga atualizada com sucesso!',
+    'en': 'Job updated successfully!',
+  },
+  'jobs.jobDeleted': {
+    'pt-BR': 'Vaga excluída com sucesso!',
+    'en': 'Job deleted successfully!',
+  },
+  'jobs.confirmDelete': {
+    'pt-BR': 'Confirmar Exclusão',
+    'en': 'Confirm Deletion',
+  },
+  'jobs.confirmDeleteMessage': {
+    'pt-BR': 'Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita.',
+    'en': 'Are you sure you want to delete this job? This action cannot be undone.',
+  },
+  'jobs.viewJob': {
+    'pt-BR': 'Ver Vaga',
+    'en': 'View Job',
+  },
 
   // Applications
   'applications.status': {
