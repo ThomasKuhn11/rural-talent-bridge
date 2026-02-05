@@ -109,7 +109,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (data.user) {
       const appUser = await buildUser(data.user);
       if (!appUser) {
-        return { success: false, error: "auth.loginError, caralho" };
+        return { success: false, error: "auth.loginError" };
       }
       setUser(appUser);
       return { success: true };
