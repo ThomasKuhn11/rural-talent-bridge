@@ -215,37 +215,9 @@ const Signup = () => {
                   />
                 </div>
                 
-                <div className="flex gap-2">
-                  <Button type="submit" className="flex-1" disabled={isLoading || !role}>
-                    {isLoading ? t('common.loading') : t('auth.signup')}
-                  </Button>
-                  <Button 
-                    type="button" 
-                    variant="outline"
-                    onClick={async () => {
-                      console.log('Debug - email usado:', email);
-                      console.log('Debug - password usado:', password);
-                      console.log('Debug - role:', role);
-                      
-                      if (!email || !password) {
-                        console.log('Debug - ERRO: email ou password vazios!');
-                        return;
-                      }
-                      
-                      const { supabase } = await import('@/integrations/supabase/client');
-                      const { data, error } = await supabase.auth.signUp({ 
-                        email, 
-                        password 
-                      });
-                      console.log('Debug - data completo:', data);
-                      console.log('Debug - data.user:', data?.user);
-                      console.log('Debug - data.session:', data?.session);
-                      console.log('Debug - error:', error);
-                    }}
-                  >
-                    Debug
-                  </Button>
-                </div>
+                <Button type="submit" className="w-full" disabled={isLoading || !role}>
+                  {isLoading ? t('common.loading') : t('auth.signup')}
+                </Button>
               </form>
               
               <div className="mt-4 text-center text-sm text-muted-foreground">
