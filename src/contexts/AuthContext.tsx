@@ -91,7 +91,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (error.message.includes("Email not confirmed")) {
         return { success: false, error: "auth.emailNotConfirmed" };
       }
-      return { success: false, error: "auth.loginError, cacete" };
+      return { success: false, error: "auth.loginError" };
     }
 
     if (data.user) {
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(appUser);
       return { success: true };
     }
-    return { success: false, error: "auth.loginError, agulha" };
+    return { success: false, error: "auth.loginError" };
   };
 
   const signup = async (
