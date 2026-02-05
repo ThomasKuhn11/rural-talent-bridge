@@ -133,8 +133,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     if (error) {
-      console.error("Signup error:", error);
-      if (error.message.includes("already registered")) {
+      console.error("Signup error (raw):", error);
+      console.error("Signup error details:", {
+        name: (error as any).name,
+        status: (error as any).status,
+        code: (error as any).code,
+        message: (error as any).message,
+      });
+
+      if (error.message?.toLowerCase().includes("already")) {
         return { success: false, error: "auth.emailExists" };
       }
       return { success: false, error: "auth.signupError, cacete" };
