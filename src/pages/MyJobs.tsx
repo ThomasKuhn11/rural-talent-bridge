@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,14 +7,28 @@ import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Briefcase, Users, Plus } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { MapPin, Briefcase, Users, Plus, Pencil, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const MyJobs = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
-  const { getJobsByEmployer } = useJobs();
+  const { getJobsByEmployer, deleteJob } = useJobs();
   const { getApplicationsByJob } = useApplications();
   const navigate = useNavigate();
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [jobToDelete, setJobToDelete] = useState<string | null>(null);
 
   const myJobs = user ? getJobsByEmployer(user.id) : [];
 
@@ -21,6 +36,26 @@ const MyJobs = () => {
   const sortedJobs = [...myJobs].sort((a, b) => 
     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+
+  const handleDeleteClick = (jobId: string) => {
+    setJobToDelete(jobId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!jobToDelete) return;
+    
+    const success = await deleteJob(jobToDelete);
+    
+    if (success) {
+      toast.success(t('jobs.jobDeleted'));
+    } else {
+      toast.error(t('common.error'));
+    }
+    
+    setDeleteDialogOpen(false);
+    setJobToDelete(null);
+  };
 
   return (
     <AppLayout>
@@ -52,7 +87,7 @@ const MyJobs = () => {
               return (
                 <Card 
                   key={job.id} 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  className="hover:shadow-md transition-shadow"
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between gap-4">
@@ -72,6 +107,25 @@ const MyJobs = () => {
                           </div>
                         </div>
                       </div>
+                      <div className="flex gap-1">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          onClick={() => navigate(`/edit-job/${job.id}`)}
+                          title={t('common.edit')}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          onClick={() => handleDeleteClick(job.id)}
+                          title={t('common.delete')}
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                     <div className="flex gap-2 mt-4">
                       <Button 
@@ -79,7 +133,7 @@ const MyJobs = () => {
                         size="sm"
                         onClick={() => navigate(`/jobs/${job.id}`)}
                       >
-                        Ver Vaga
+                        {t('jobs.viewJob')}
                       </Button>
                       <Button 
                         size="sm"
@@ -97,6 +151,26 @@ const MyJobs = () => {
           </div>
         )}
       </div>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('jobs.confirmDelete')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('jobs.confirmDeleteMessage')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleConfirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {t('common.delete')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AppLayout>
   );
 };
