@@ -39,6 +39,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Build User object from Supabase user and role
   const buildUser = async (supabaseUser: SupabaseUser): Promise<User | null> => {
+    const metaRole = supabaseUser.user_metadata?.role as UserRole | undefined;
+
+    // se tiver no metadata, perfeito
+    if (metaRole) {
+      return {
+        id: supabaseUser.id,
+        email: supabaseUser.email || "",
+        role: metaRole,
+        createdAt: supabaseUser.created_at,
+      };
+    }
+
+    // fallback opcional: tenta tabela
     const role = await fetchUserRole(supabaseUser.id);
     if (!role) return null;
 
