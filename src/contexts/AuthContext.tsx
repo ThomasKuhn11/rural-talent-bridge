@@ -124,7 +124,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (error.message.includes("already registered")) {
         return { success: false, error: "auth.emailExists" };
       }
-      return { success: false, error: "auth.signupError" };
+      return { success: false, error: "auth.signupError, cacete" };
     }
 
     if (data.user) {
@@ -134,7 +134,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       if (roleError) {
         console.error("Error creating user role:", roleError);
-        return { success: false, error: "auth.signupError" };
+        return { success: false, error: "auth.signupError, caralho" };
       }
 
       // Create empty profile based on role
@@ -156,7 +156,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return { success: true };
     }
 
-    return { success: false, error: "auth.signupError" };
+    return { success: false, error: "auth.signupError, pimba };
   };
 
   const logout = async () => {
