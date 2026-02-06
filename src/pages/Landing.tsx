@@ -15,7 +15,7 @@ const Landing = () => {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={logo} alt="Trampo no Campo" className="h-10 w-10 rounded-full object-cover" />
+            <img src={logo} alt="Trampo no Campo" className="h-14 w-14 rounded-full object-cover" />
             <span className="text-xl font-bold text-foreground">{t('landing.title')}</span>
           </div>
           <div className="flex items-center gap-2">
@@ -144,7 +144,7 @@ const Landing = () => {
       <footer className="border-t py-8 px-4">
         <div className="container mx-auto text-center text-muted-foreground">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <img src={logo} alt="Trampo no Campo" className="h-6 w-6 rounded-full object-cover" />
+            <img src={logo} alt="Trampo no Campo" className="h-10 w-10 rounded-full object-cover" />
             <span className="font-semibold text-foreground">{t('landing.title')}</span>
           </div>
           <p className="text-sm">© 2024 Trampo no Campo. Todos os direitos reservados.</p>
