@@ -21,7 +21,7 @@ export const Header = () => {
     <header className="border-b bg-card sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/dashboard" className="flex items-center gap-2">
-          <img src={logo} alt="Trampo no Campo" className="h-8 w-8 rounded-full object-cover" />
+          <img src={logo} alt="Trampo no Campo" className="h-12 w-12 rounded-full object-cover" />
           <span className="text-lg font-bold text-foreground hidden sm:inline">
             {t('landing.title')}
           </span>
