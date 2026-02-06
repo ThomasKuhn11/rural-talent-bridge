@@ -69,15 +69,15 @@ const Landing = () => {
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center gap-2 text-foreground">
-                  <div className="h-2 w-2 bg-accent rounded-full" />
+                  <div className="h-2 w-2 rounded-full text-primary bg-primary" />
                   {t('profile.editProfile')}
                 </li>
                 <li className="flex items-center gap-2 text-foreground">
-                  <div className="h-2 w-2 bg-accent rounded-full" />
+                  <div className="h-2 w-2 rounded-full bg-primary" />
                   {t('nav.jobs')}
                 </li>
                 <li className="flex items-center gap-2 text-foreground">
-                  <div className="h-2 w-2 bg-accent rounded-full" />
+                  <div className="h-2 w-2 rounded-full bg-primary" />
                   {t('nav.messages')}
                 </li>
               </ul>
@@ -146,7 +146,7 @@ const Landing = () => {
             <img src={logo} alt="Trampo no Campo" className="h-10 w-10 rounded-full object-cover" />
             <span className="font-semibold text-foreground">{t('landing.title')}</span>
           </div>
-          <p className="text-sm">© 2024 Trampo no Campo. Todos os direitos reservados.</p>
+          <p className="text-sm">© 2026 Trampo no Campo. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>;
