@@ -49,7 +49,7 @@ const Landing = () => {
               {t('auth.signup')}
               <ArrowRight className="h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="border-white text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="border-white !text-black hover:bg-white/10">
               {t('auth.login')}
             </Button>
           </div>
