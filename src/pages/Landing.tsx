@@ -4,13 +4,12 @@ import { LanguageToggle } from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
 import { Users, Briefcase, ArrowRight } from 'lucide-react';
 import logo from '@/assets/logo.jpeg';
-
 const Landing = () => {
-  const { t } = useLanguage();
+  const {
+    t
+  } = useLanguage();
   const navigate = useNavigate();
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -125,7 +124,7 @@ const Landing = () => {
               <div className="text-sm text-muted-foreground">{t('auth.professional')}s</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">100+</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2 text-primary">100+</div>
               <div className="text-sm text-muted-foreground">{t('auth.employer')}s</div>
             </div>
             <div>
@@ -133,7 +132,7 @@ const Landing = () => {
               <div className="text-sm text-muted-foreground">{t('nav.jobs')}</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">1000+</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2 text-primary">1000+</div>
               <div className="text-sm text-muted-foreground">{t('nav.messages')}</div>
             </div>
           </div>
@@ -147,16 +146,9 @@ const Landing = () => {
             <img src={logo} alt="Trampo no Campo" className="h-10 w-10 rounded-full object-cover" />
             <span className="font-semibold text-foreground">{t('landing.title')}</span>
           </div>
-          <div className="mb-2">
-            <Link to="/about" className="text-sm text-primary hover:underline">
-              {t('about.link')}
-            </Link>
-          </div>
           <p className="text-sm">© 2024 Trampo no Campo. Todos os direitos reservados.</p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Landing;
