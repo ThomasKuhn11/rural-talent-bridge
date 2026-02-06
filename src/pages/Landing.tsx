@@ -93,7 +93,7 @@ const Landing = () => {
             <div className="bg-card rounded-xl p-8 shadow-sm border">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-accent/10 rounded-lg">
-                  <Briefcase className="h-6 w-6 text-accent" />
+                  <Briefcase className="h-6 w-6 text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold text-foreground">
                   {t('landing.forEmployers')}
