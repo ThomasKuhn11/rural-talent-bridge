@@ -2,7 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
-import { Tractor, Users, Briefcase, MessageSquare, ArrowRight } from 'lucide-react';
+import { Users, Briefcase, ArrowRight } from 'lucide-react';
+import logo from '@/assets/logo.jpeg';
 
 const Landing = () => {
   const { t } = useLanguage();
@@ -14,7 +15,7 @@ const Landing = () => {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Tractor className="h-8 w-8 text-accent" />
+            <img src={logo} alt="Trampo no Campo" className="h-10 w-10 rounded-full object-cover" />
             <span className="text-xl font-bold text-foreground">{t('landing.title')}</span>
           </div>
           <div className="flex items-center gap-2">
@@ -143,7 +144,7 @@ const Landing = () => {
       <footer className="border-t py-8 px-4">
         <div className="container mx-auto text-center text-muted-foreground">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Tractor className="h-5 w-5 text-accent" />
+            <img src={logo} alt="Trampo no Campo" className="h-6 w-6 rounded-full object-cover" />
             <span className="font-semibold text-foreground">{t('landing.title')}</span>
           </div>
           <p className="text-sm">© 2024 Trampo no Campo. Todos os direitos reservados.</p>
