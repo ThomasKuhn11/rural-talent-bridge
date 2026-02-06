@@ -147,6 +147,11 @@ const Landing = () => {
             <img src={logo} alt="Trampo no Campo" className="h-10 w-10 rounded-full object-cover" />
             <span className="font-semibold text-foreground">{t('landing.title')}</span>
           </div>
+          <div className="mb-2">
+            <Link to="/about" className="text-sm text-primary hover:underline">
+              {t('about.link')}
+            </Link>
+          </div>
           <p className="text-sm">© 2024 Trampo no Campo. Todos os direitos reservados.</p>
         </div>
       </footer>

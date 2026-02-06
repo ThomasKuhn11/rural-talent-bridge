@@ -402,6 +402,92 @@ const translations: Translations = {
     'en': 'Start Conversation',
   },
 
+  // About Page
+  'about.title': {
+    'pt-BR': 'Sobre Nós',
+    'en': 'About Us',
+  },
+  'about.subtitle': {
+    'pt-BR': 'Transformando o agronegócio brasileiro conectando talentos às melhores oportunidades do campo.',
+    'en': 'Transforming Brazilian agribusiness by connecting talent to the best opportunities in the field.',
+  },
+  'about.mission': {
+    'pt-BR': 'Missão',
+    'en': 'Mission',
+  },
+  'about.missionDesc': {
+    'pt-BR': 'Democratizar o acesso a oportunidades de trabalho no agronegócio, conectando profissionais qualificados a empresas que valorizam o talento rural.',
+    'en': 'Democratize access to job opportunities in agribusiness, connecting qualified professionals to companies that value rural talent.',
+  },
+  'about.vision': {
+    'pt-BR': 'Visão',
+    'en': 'Vision',
+  },
+  'about.visionDesc': {
+    'pt-BR': 'Ser a principal plataforma de empregabilidade do agronegócio no Brasil, reconhecida pela excelência na conexão entre profissionais e empregadores.',
+    'en': 'Be the leading employability platform for agribusiness in Brazil, recognized for excellence in connecting professionals and employers.',
+  },
+  'about.values': {
+    'pt-BR': 'Valores',
+    'en': 'Values',
+  },
+  'about.valuesDesc': {
+    'pt-BR': 'Transparência, respeito ao trabalhador rural, inovação no campo e compromisso com o desenvolvimento sustentável do agronegócio.',
+    'en': 'Transparency, respect for rural workers, innovation in the field, and commitment to sustainable agribusiness development.',
+  },
+  'about.ourStory': {
+    'pt-BR': 'Nossa História',
+    'en': 'Our Story',
+  },
+  'about.storyP1': {
+    'pt-BR': 'O Trampo no Campo nasceu da necessidade real de conectar profissionais do agronegócio às oportunidades certas. Percebemos que muitos talentos do campo tinham dificuldade em encontrar vagas adequadas, enquanto empregadores lutavam para encontrar profissionais qualificados.',
+    'en': 'Trampo no Campo was born from the real need to connect agribusiness professionals with the right opportunities. We noticed that many rural talents had difficulty finding suitable jobs, while employers struggled to find qualified professionals.',
+  },
+  'about.storyP2': {
+    'pt-BR': 'Criamos uma plataforma simples e acessível, pensada especialmente para o trabalhador rural e as empresas do agronegócio brasileiro. Nossa missão é fortalecer o campo brasileiro, valorizando os profissionais que são a base da nossa economia.',
+    'en': 'We created a simple and accessible platform, designed especially for rural workers and Brazilian agribusiness companies. Our mission is to strengthen the Brazilian countryside, valuing the professionals who are the foundation of our economy.',
+  },
+  'about.whatWeDo': {
+    'pt-BR': 'O Que Fazemos',
+    'en': 'What We Do',
+  },
+  'about.connectTitle': {
+    'pt-BR': 'Conectamos',
+    'en': 'We Connect',
+  },
+  'about.connectDesc': {
+    'pt-BR': 'Unimos profissionais do campo a fazendas, cooperativas e empresas do agronegócio em todo o Brasil.',
+    'en': 'We unite field professionals with farms, cooperatives, and agribusiness companies across Brazil.',
+  },
+  'about.growTitle': {
+    'pt-BR': 'Desenvolvemos',
+    'en': 'We Grow',
+  },
+  'about.growDesc': {
+    'pt-BR': 'Apoiamos o crescimento profissional com ferramentas que destacam habilidades e experiências do trabalhador rural.',
+    'en': 'We support professional growth with tools that highlight skills and experiences of rural workers.',
+  },
+  'about.transformTitle': {
+    'pt-BR': 'Transformamos',
+    'en': 'We Transform',
+  },
+  'about.transformDesc': {
+    'pt-BR': 'Facilitamos contratações mais rápidas e eficientes, transformando o mercado de trabalho do agronegócio.',
+    'en': 'We facilitate faster and more efficient hiring, transforming the agribusiness job market.',
+  },
+  'about.ctaTitle': {
+    'pt-BR': 'Faça Parte Dessa Transformação',
+    'en': 'Be Part of This Transformation',
+  },
+  'about.ctaDesc': {
+    'pt-BR': 'Junte-se a centenas de profissionais e empresas que já estão conectados no Trampo no Campo.',
+    'en': 'Join hundreds of professionals and companies already connected on Trampo no Campo.',
+  },
+  'about.link': {
+    'pt-BR': 'Sobre Nós',
+    'en': 'About Us',
+  },
+
   // Common
   'common.save': {
     'pt-BR': 'Salvar',
