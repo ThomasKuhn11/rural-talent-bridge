@@ -4,6 +4,7 @@ import { LanguageToggle } from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
 import { Users, Briefcase, ArrowRight } from 'lucide-react';
 import logo from '@/assets/logo.jpeg';
+import lavoura from '@/assets/lavoura.jpg';
 const Landing = () => {
   const {
     t
@@ -30,12 +31,17 @@ const Landing = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+      <section className="relative py-16 md:py-24 px-4 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${lavoura})` }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="container mx-auto text-center max-w-4xl relative z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             {t('landing.subtitle')}
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             {t('landing.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -43,7 +49,7 @@ const Landing = () => {
               {t('auth.signup')}
               <ArrowRight className="h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" onClick={() => navigate('/login')}>
+            <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="border-white text-white hover:bg-white/10">
               {t('auth.login')}
             </Button>
           </div>
