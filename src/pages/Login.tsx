@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tractor, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
+import logo from '@/assets/logo.jpeg';
 
 const Login = () => {
   const { t } = useLanguage();
@@ -42,7 +43,7 @@ const Login = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-            <Tractor className="h-8 w-8 text-accent" />
+            <img src={logo} alt="Trampo no Campo" className="h-14 w-14 rounded-full object-cover" />
             <span className="text-xl font-bold text-foreground">{t('landing.title')}</span>
           </Link>
           <LanguageToggle />
