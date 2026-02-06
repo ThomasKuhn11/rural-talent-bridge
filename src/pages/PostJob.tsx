@@ -149,7 +149,7 @@ const PostJob = () => {
                 />
               </div>
 
-              <Button type="submit" className="w-full gap-2 text-foreground">
+              <Button type="submit" className="w-full gap-2 !text-foreground">
                 <Plus className="h-4 w-4" />
                 {t('jobs.postJob')}
               </Button>
