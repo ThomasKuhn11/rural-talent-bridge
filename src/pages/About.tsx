@@ -169,7 +169,7 @@ const About = () => {
             <Button size="lg" variant="secondary" onClick={() => navigate('/signup')}>
               {t('auth.signup')}
             </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate('/login')}>
+            <Button size="lg" variant="outline" className="border-foreground text-foreground hover:bg-foreground/10" onClick={() => navigate('/login')}>
               {t('auth.login')}
             </Button>
           </div>
