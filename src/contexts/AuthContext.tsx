@@ -133,14 +133,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     if (error) {
-      console.error("Signup error (raw):", error);
-      console.error("Signup error details:", {
-        name: (error as any).name,
-        status: (error as any).status,
-        code: (error as any).code,
-        message: (error as any).message,
-      });
+      console.error("Signup error:", error);
 
+      if ((error as any).code === "over_email_send_rate_limit") {
+        return { success: false, error: "auth.rateLimitError" };
+      }
       if (error.message?.toLowerCase().includes("already")) {
         return { success: false, error: "auth.emailExists" };
       }
@@ -148,28 +145,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
 
     if (data.user) {
-      // Insert user role
-      console.log(data);
+      // Try to insert user role (non-blocking - role is already in metadata)
       const { error: roleError } = await supabase.from("user_roles").insert({ user_id: data.user.id, role });
-
       if (roleError) {
-        console.error("Error creating user role:", roleError);
-        return { success: false, error: "auth.signupError" };
+        console.warn("Could not insert user_roles (may need RLS policy):", roleError);
       }
 
-      // Create empty profile based on role
+      // Try to create empty profile based on role (non-blocking)
       if (role === "professional") {
         const { error: profileError } = await supabase.from("professional_profiles").insert({ user_id: data.user.id });
-
-        if (profileError) {
-          console.error("Error creating professional profile:", profileError);
-        }
+        if (profileError) console.warn("Could not create professional profile:", profileError);
       } else {
         const { error: profileError } = await supabase.from("employer_profiles").insert({ user_id: data.user.id });
-
-        if (profileError) {
-          console.error("Error creating employer profile:", profileError);
-        }
+        if (profileError) console.warn("Could not create employer profile:", profileError);
       }
 
       // Return success - user needs to confirm email
