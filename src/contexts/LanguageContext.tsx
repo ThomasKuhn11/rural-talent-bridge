@@ -408,8 +408,24 @@ const translations: Translations = {
     'en': 'About Us',
   },
   'about.subtitle': {
-    'pt-BR': 'Nascemos para resolver um dos maiores desafios do agronegócio brasileiro: a escassez de mão de obra qualificada no campo.',
-    'en': 'We were born to solve one of the biggest challenges in Brazilian agribusiness: the shortage of qualified workforce in rural areas.',
+    'pt-BR': 'Dois jovens do campo que viveram na pele a escassez de mão de obra — e decidiram fazer algo a respeito.',
+    'en': 'Two young men from the countryside who experienced the workforce shortage firsthand — and decided to do something about it.',
+  },
+  'about.foundersTitle': {
+    'pt-BR': 'Nossa Origem',
+    'en': 'Our Origin',
+  },
+  'about.foundersP1': {
+    'pt-BR': 'O Trampo no Campo nasceu da experiência real de dois jovens que cresceram trabalhando no campo. Desde cedo, vivenciamos as dificuldades do dia a dia do agronegócio — não apenas o trabalho duro sob o sol, mas principalmente a luta constante para encontrar pessoas confiáveis e qualificadas para compor as equipes das fazendas onde trabalhávamos.',
+    'en': 'Trampo no Campo was born from the real-life experience of two young men who grew up working on farms. From an early age, we lived the daily challenges of agribusiness — not just the hard work under the sun, but above all the constant struggle to find reliable, qualified people to join the teams on the farms where we worked.',
+  },
+  'about.foundersP2': {
+    'pt-BR': 'Ao mesmo tempo, víamos amigos e vizinhos talentosos deixando o campo rumo às cidades, em busca de melhores oportunidades. Comunidades rurais inteiras se enfraqueciam, e bons profissionais ficavam invisíveis para as empresas que mais precisavam deles. Era um descompasso que nos incomodava profundamente.',
+    'en': 'At the same time, we watched talented friends and neighbors leave the countryside for the cities, searching for better opportunities. Entire rural communities weakened, and skilled professionals remained invisible to the companies that needed them most. It was a mismatch that deeply troubled us.',
+  },
+  'about.foundersP3': {
+    'pt-BR': 'Foi então que decidimos usar a tecnologia para resolver esse problema. Criamos o Trampo no Campo — uma plataforma feita por quem conhece a realidade do campo, para conectar quem quer trabalhar com quem precisa contratar. Simples, acessível e pensada para o Brasil rural.',
+    'en': 'That\'s when we decided to use technology to solve this problem. We created Trampo no Campo — a platform built by people who know the reality of rural life, to connect those who want to work with those who need to hire. Simple, accessible, and designed for rural Brazil.',
   },
   'about.crisisTitle': {
     'pt-BR': 'O Desafio: Escassez de Mão de Obra no Campo',
@@ -482,18 +498,6 @@ const translations: Translations = {
   'about.valuesDesc': {
     'pt-BR': 'Transparência, respeito ao trabalhador rural, inovação no campo e compromisso com o desenvolvimento sustentável do agronegócio.',
     'en': 'Transparency, respect for rural workers, innovation in the field, and commitment to sustainable agribusiness development.',
-  },
-  'about.ourStory': {
-    'pt-BR': 'Nossa História',
-    'en': 'Our Story',
-  },
-  'about.storyP1': {
-    'pt-BR': 'O Trampo no Campo nasceu da observação direta de um problema crítico: enquanto o agronegócio brasileiro bate recordes de produção e exportação, a base humana que sustenta essa potência enfrenta uma crise de escassez sem precedentes. Profissionais qualificados deixam o campo, e as empresas ficam sem opções.',
-    'en': 'Trampo no Campo was born from directly observing a critical problem: while Brazilian agribusiness breaks production and export records, the human foundation that sustains this powerhouse faces an unprecedented shortage crisis. Qualified professionals leave rural areas, and companies are left without options.',
-  },
-  'about.storyP2': {
-    'pt-BR': 'Criamos uma plataforma pensada para resolver esse descompasso — simples o suficiente para ser usada por qualquer trabalhador rural com um celular, e poderosa o suficiente para ajudar empregadores a encontrar exatamente o profissional que precisam. Nosso objetivo é fortalecer o campo brasileiro, valorizando quem faz o agro acontecer.',
-    'en': 'We created a platform designed to solve this mismatch — simple enough to be used by any rural worker with a phone, and powerful enough to help employers find exactly the professional they need. Our goal is to strengthen the Brazilian countryside, valuing those who make agribusiness happen.',
   },
   'about.whatWeDo': {
     'pt-BR': 'O Que Fazemos',
