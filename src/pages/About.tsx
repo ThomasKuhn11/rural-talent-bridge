@@ -49,6 +49,29 @@ const About = () => {
         </div>
       </section>
 
+      {/* Founders Section */}
+      <section className="py-16 px-4 bg-muted/50">
+        <div className="container mx-auto max-w-4xl">
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <Users className="h-7 w-7 text-primary" />
+            <h2 className="text-3xl font-bold text-foreground text-center">
+              {t('about.foundersTitle')}
+            </h2>
+          </div>
+          <div className="bg-card rounded-xl p-8 md:p-12 shadow-sm border space-y-6">
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              {t('about.foundersP1')}
+            </p>
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              {t('about.foundersP2')}
+            </p>
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              {t('about.foundersP3')}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Crisis Section */}
       <section className="py-16 px-4 bg-destructive/5 border-y border-destructive/20">
         <div className="container mx-auto max-w-5xl">
@@ -150,23 +173,6 @@ const About = () => {
                 {t('about.valuesDesc')}
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Story */}
-      <section className="py-16 px-4 bg-muted/50">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-            {t('about.ourStory')}
-          </h2>
-          <div className="bg-card rounded-xl p-8 md:p-12 shadow-sm border">
-            <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
-              {t('about.storyP1')}
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              {t('about.storyP2')}
-            </p>
           </div>
         </div>
       </section>
