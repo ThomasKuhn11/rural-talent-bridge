@@ -408,72 +408,24 @@ const translations: Translations = {
     'en': 'About Us',
   },
   'about.subtitle': {
-    'pt-BR': 'Nascemos para resolver um dos maiores desafios do agronegócio brasileiro: a escassez de mão de obra qualificada no campo.',
-    'en': 'We were born to solve one of the biggest challenges in Brazilian agribusiness: the shortage of qualified workforce in rural areas.',
-  },
-  'about.crisisTitle': {
-    'pt-BR': 'O Desafio: Escassez de Mão de Obra no Campo',
-    'en': 'The Challenge: Rural Workforce Shortage',
-  },
-  'about.crisisP1': {
-    'pt-BR': 'O agronegócio brasileiro representa cerca de 24% do PIB nacional e é um dos pilares da economia do país. No entanto, o setor enfrenta uma crise silenciosa: a crescente dificuldade em encontrar e reter profissionais qualificados.',
-    'en': 'Brazilian agribusiness accounts for roughly 24% of the national GDP and is one of the pillars of the country\'s economy. Yet the sector faces a silent crisis: the growing difficulty in finding and retaining qualified professionals.',
-  },
-  'about.crisisP2': {
-    'pt-BR': 'Com o êxodo rural acelerado nas últimas décadas, milhões de trabalhadores migraram para as cidades em busca de melhores condições. O resultado? Fazendas, cooperativas e empresas do agro lutam para preencher vagas essenciais — de operadores de máquinas a agrônomos, de técnicos agrícolas a gestores de propriedade.',
-    'en': 'With accelerated rural exodus over recent decades, millions of workers have migrated to cities seeking better conditions. The result? Farms, cooperatives, and agribusiness companies struggle to fill essential roles — from machine operators to agronomists, from agricultural technicians to farm managers.',
-  },
-  'about.crisisP3': {
-    'pt-BR': 'Segundo dados da CNA (Confederação da Agricultura e Pecuária do Brasil), mais de 70% dos produtores rurais relatam dificuldade em contratar mão de obra. Ao mesmo tempo, profissionais qualificados no campo muitas vezes não têm acesso a ferramentas digitais para encontrar as melhores oportunidades.',
-    'en': 'According to data from the CNA (Brazilian Agriculture and Livestock Confederation), over 70% of rural producers report difficulty in hiring workers. At the same time, qualified professionals in rural areas often lack access to digital tools to find the best opportunities.',
-  },
-  'about.crisisStat1': {
-    'pt-BR': '24%',
-    'en': '24%',
-  },
-  'about.crisisStat1Label': {
-    'pt-BR': 'do PIB brasileiro vem do agronegócio',
-    'en': 'of Brazilian GDP comes from agribusiness',
-  },
-  'about.crisisStat2': {
-    'pt-BR': '70%+',
-    'en': '70%+',
-  },
-  'about.crisisStat2Label': {
-    'pt-BR': 'dos produtores têm dificuldade em contratar',
-    'en': 'of producers struggle to hire workers',
-  },
-  'about.crisisStat3': {
-    'pt-BR': '15M+',
-    'en': '15M+',
-  },
-  'about.crisisStat3Label': {
-    'pt-BR': 'trabalhadores no agronegócio brasileiro',
-    'en': 'workers in Brazilian agribusiness',
-  },
-  'about.solutionTitle': {
-    'pt-BR': 'Nossa Solução',
-    'en': 'Our Solution',
-  },
-  'about.solutionDesc': {
-    'pt-BR': 'O Trampo no Campo foi criado para ser a ponte digital entre o talento rural e as oportunidades do agronegócio. Uma plataforma simples, acessível e pensada para a realidade do campo brasileiro.',
-    'en': 'Trampo no Campo was created to be the digital bridge between rural talent and agribusiness opportunities. A simple, accessible platform designed for the reality of the Brazilian countryside.',
+    'pt-BR': 'Transformando o agronegócio brasileiro conectando talentos às melhores oportunidades do campo.',
+    'en': 'Transforming Brazilian agribusiness by connecting talent to the best opportunities in the field.',
   },
   'about.mission': {
     'pt-BR': 'Missão',
     'en': 'Mission',
   },
   'about.missionDesc': {
-    'pt-BR': 'Democratizar o acesso a oportunidades de trabalho no agronegócio, combatendo a escassez de mão de obra com tecnologia acessível que conecta profissionais qualificados a empresas que valorizam o talento rural.',
-    'en': 'Democratize access to job opportunities in agribusiness, fighting workforce shortages with accessible technology that connects qualified professionals to companies that value rural talent.',
+    'pt-BR': 'Democratizar o acesso a oportunidades de trabalho no agronegócio, conectando profissionais qualificados a empresas que valorizam o talento rural.',
+    'en': 'Democratize access to job opportunities in agribusiness, connecting qualified professionals to companies that value rural talent.',
   },
   'about.vision': {
     'pt-BR': 'Visão',
     'en': 'Vision',
   },
   'about.visionDesc': {
-    'pt-BR': 'Ser a principal plataforma de empregabilidade do agronegócio no Brasil, contribuindo para reverter o êxodo rural ao tornar o trabalho no campo mais conectado, valorizado e acessível.',
-    'en': 'Be the leading employability platform for agribusiness in Brazil, contributing to reversing rural exodus by making field work more connected, valued, and accessible.',
+    'pt-BR': 'Ser a principal plataforma de empregabilidade do agronegócio no Brasil, reconhecida pela excelência na conexão entre profissionais e empregadores.',
+    'en': 'Be the leading employability platform for agribusiness in Brazil, recognized for excellence in connecting professionals and employers.',
   },
   'about.values': {
     'pt-BR': 'Valores',
@@ -488,12 +440,12 @@ const translations: Translations = {
     'en': 'Our Story',
   },
   'about.storyP1': {
-    'pt-BR': 'O Trampo no Campo nasceu da observação direta de um problema crítico: enquanto o agronegócio brasileiro bate recordes de produção e exportação, a base humana que sustenta essa potência enfrenta uma crise de escassez sem precedentes. Profissionais qualificados deixam o campo, e as empresas ficam sem opções.',
-    'en': 'Trampo no Campo was born from directly observing a critical problem: while Brazilian agribusiness breaks production and export records, the human foundation that sustains this powerhouse faces an unprecedented shortage crisis. Qualified professionals leave rural areas, and companies are left without options.',
+    'pt-BR': 'O Trampo no Campo nasceu da necessidade real de conectar profissionais do agronegócio às oportunidades certas. Percebemos que muitos talentos do campo tinham dificuldade em encontrar vagas adequadas, enquanto empregadores lutavam para encontrar profissionais qualificados.',
+    'en': 'Trampo no Campo was born from the real need to connect agribusiness professionals with the right opportunities. We noticed that many rural talents had difficulty finding suitable jobs, while employers struggled to find qualified professionals.',
   },
   'about.storyP2': {
-    'pt-BR': 'Criamos uma plataforma pensada para resolver esse descompasso — simples o suficiente para ser usada por qualquer trabalhador rural com um celular, e poderosa o suficiente para ajudar empregadores a encontrar exatamente o profissional que precisam. Nosso objetivo é fortalecer o campo brasileiro, valorizando quem faz o agro acontecer.',
-    'en': 'We created a platform designed to solve this mismatch — simple enough to be used by any rural worker with a phone, and powerful enough to help employers find exactly the professional they need. Our goal is to strengthen the Brazilian countryside, valuing those who make agribusiness happen.',
+    'pt-BR': 'Criamos uma plataforma simples e acessível, pensada especialmente para o trabalhador rural e as empresas do agronegócio brasileiro. Nossa missão é fortalecer o campo brasileiro, valorizando os profissionais que são a base da nossa economia.',
+    'en': 'We created a simple and accessible platform, designed especially for rural workers and Brazilian agribusiness companies. Our mission is to strengthen the Brazilian countryside, valuing the professionals who are the foundation of our economy.',
   },
   'about.whatWeDo': {
     'pt-BR': 'O Que Fazemos',
@@ -504,32 +456,32 @@ const translations: Translations = {
     'en': 'We Connect',
   },
   'about.connectDesc': {
-    'pt-BR': 'Unimos profissionais do campo a fazendas, cooperativas e empresas do agronegócio em todo o Brasil, eliminando barreiras geográficas e de acesso à informação.',
-    'en': 'We unite field professionals with farms, cooperatives, and agribusiness companies across Brazil, eliminating geographic and information access barriers.',
+    'pt-BR': 'Unimos profissionais do campo a fazendas, cooperativas e empresas do agronegócio em todo o Brasil.',
+    'en': 'We unite field professionals with farms, cooperatives, and agribusiness companies across Brazil.',
   },
   'about.growTitle': {
     'pt-BR': 'Desenvolvemos',
     'en': 'We Grow',
   },
   'about.growDesc': {
-    'pt-BR': 'Apoiamos o crescimento profissional com ferramentas que destacam habilidades e experiências, tornando o trabalhador rural visível no mercado digital.',
-    'en': 'We support professional growth with tools that highlight skills and experiences, making rural workers visible in the digital marketplace.',
+    'pt-BR': 'Apoiamos o crescimento profissional com ferramentas que destacam habilidades e experiências do trabalhador rural.',
+    'en': 'We support professional growth with tools that highlight skills and experiences of rural workers.',
   },
   'about.transformTitle': {
     'pt-BR': 'Transformamos',
     'en': 'We Transform',
   },
   'about.transformDesc': {
-    'pt-BR': 'Facilitamos contratações mais rápidas e eficientes, ajudando a combater a crise de mão de obra e transformando o mercado de trabalho do agronegócio.',
-    'en': 'We facilitate faster and more efficient hiring, helping combat the workforce crisis and transforming the agribusiness job market.',
+    'pt-BR': 'Facilitamos contratações mais rápidas e eficientes, transformando o mercado de trabalho do agronegócio.',
+    'en': 'We facilitate faster and more efficient hiring, transforming the agribusiness job market.',
   },
   'about.ctaTitle': {
     'pt-BR': 'Faça Parte Dessa Transformação',
     'en': 'Be Part of This Transformation',
   },
   'about.ctaDesc': {
-    'pt-BR': 'O campo precisa de você. Seja profissional buscando oportunidades ou empregador procurando talentos — juntos podemos fortalecer o agronegócio brasileiro.',
-    'en': 'The field needs you. Whether you\'re a professional seeking opportunities or an employer looking for talent — together we can strengthen Brazilian agribusiness.',
+    'pt-BR': 'Junte-se a centenas de profissionais e empresas que já estão conectados no Trampo no Campo.',
+    'en': 'Join hundreds of professionals and companies already connected on Trampo no Campo.',
   },
   'about.link': {
     'pt-BR': 'Sobre Nós',

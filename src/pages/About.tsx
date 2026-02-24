@@ -2,9 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Target, Eye, Heart, Users, Sprout, Handshake, TrendingDown, AlertTriangle, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Target, Eye, Heart, Users, Sprout, Handshake } from 'lucide-react';
 import logo from '@/assets/logo.jpeg';
-import lavoura from '@/assets/lavoura.jpg';
 
 const About = () => {
   const { t } = useLanguage();
@@ -32,75 +31,14 @@ const About = () => {
         </div>
       </header>
 
-      {/* Hero Section with background image */}
-      <section className="relative py-20 md:py-32 px-4">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${lavoura})` }}
-        />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="container mx-auto text-center max-w-4xl relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+      {/* Hero Section */}
+      <section className="py-16 md:py-24 px-4 bg-muted/50">
+        <div className="container mx-auto text-center max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             {t('about.title')}
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             {t('about.subtitle')}
-          </p>
-        </div>
-      </section>
-
-      {/* Crisis Section */}
-      <section className="py-16 px-4 bg-destructive/5 border-y border-destructive/20">
-        <div className="container mx-auto max-w-5xl">
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <AlertTriangle className="h-7 w-7 text-destructive" />
-            <h2 className="text-3xl font-bold text-foreground text-center">
-              {t('about.crisisTitle')}
-            </h2>
-          </div>
-
-          <div className="space-y-5 mb-12">
-            <p className="text-muted-foreground leading-relaxed text-lg text-center max-w-4xl mx-auto">
-              {t('about.crisisP1')}
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-lg text-center max-w-4xl mx-auto">
-              {t('about.crisisP2')}
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-lg text-center max-w-4xl mx-auto">
-              {t('about.crisisP3')}
-            </p>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-card rounded-xl p-6 shadow-sm border text-center">
-              <BarChart3 className="h-8 w-8 text-primary mx-auto mb-3" />
-              <p className="text-4xl font-extrabold text-primary mb-2">{t('about.crisisStat1')}</p>
-              <p className="text-sm text-muted-foreground">{t('about.crisisStat1Label')}</p>
-            </div>
-            <div className="bg-card rounded-xl p-6 shadow-sm border text-center">
-              <TrendingDown className="h-8 w-8 text-destructive mx-auto mb-3" />
-              <p className="text-4xl font-extrabold text-destructive mb-2">{t('about.crisisStat2')}</p>
-              <p className="text-sm text-muted-foreground">{t('about.crisisStat2Label')}</p>
-            </div>
-            <div className="bg-card rounded-xl p-6 shadow-sm border text-center">
-              <Users className="h-8 w-8 text-accent mx-auto mb-3" />
-              <p className="text-4xl font-extrabold text-accent mb-2">{t('about.crisisStat3')}</p>
-              <p className="text-sm text-muted-foreground">{t('about.crisisStat3Label')}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Solution Section */}
-      <section className="py-16 px-4 bg-primary/5">
-        <div className="container mx-auto max-w-4xl text-center">
-          <Sprout className="h-10 w-10 text-primary mx-auto mb-4" />
-          <h2 className="text-3xl font-bold text-foreground mb-4">
-            {t('about.solutionTitle')}
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            {t('about.solutionDesc')}
           </p>
         </div>
       </section>
@@ -109,6 +47,7 @@ const About = () => {
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-3 gap-8">
+            {/* Mission */}
             <div className="bg-card rounded-xl p-8 shadow-sm border text-center">
               <div className="flex justify-center mb-4">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -123,6 +62,7 @@ const About = () => {
               </p>
             </div>
 
+            {/* Vision */}
             <div className="bg-card rounded-xl p-8 shadow-sm border text-center">
               <div className="flex justify-center mb-4">
                 <div className="p-4 bg-accent/10 rounded-full">
@@ -137,6 +77,7 @@ const About = () => {
               </p>
             </div>
 
+            {/* Values */}
             <div className="bg-card rounded-xl p-8 shadow-sm border text-center">
               <div className="flex justify-center mb-4">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -161,10 +102,10 @@ const About = () => {
             {t('about.ourStory')}
           </h2>
           <div className="bg-card rounded-xl p-8 md:p-12 shadow-sm border">
-            <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
+            <p className="text-muted-foreground leading-relaxed mb-6">
               {t('about.storyP1')}
             </p>
-            <p className="text-muted-foreground leading-relaxed text-lg">
+            <p className="text-muted-foreground leading-relaxed">
               {t('about.storyP2')}
             </p>
           </div>
