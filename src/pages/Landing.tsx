@@ -52,6 +52,9 @@ const Landing = () => {
             <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="border-white !text-black hover:bg-white/10">
               {t('auth.login')}
             </Button>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/about')} className="gap-2">
+              {t('nav.about')}
+            </Button>
           </div>
         </div>
       </section>
