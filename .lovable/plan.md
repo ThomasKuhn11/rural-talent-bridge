@@ -1,39 +1,42 @@
-# Supabase Migration Complete
 
-## Summary
 
-The app has been migrated from localStorage to your external Supabase project.
+## Plan: Restructure About Page with Personal Founders Story
 
-## Changes Made
+### What changes
 
-### New Files
-- `src/integrations/supabase/client.ts` - Supabase client using VITE_EXTERNAL_SUPABASE_URL and VITE_EXTERNAL_SUPABASE_ANON_KEY
-- `src/integrations/supabase/database.types.ts` - TypeScript types for the database schema
+The page structure will be reordered so the **first section after the hero** tells the personal story of two young farmers who experienced the workforce shortage firsthand. The crisis data/statistics section moves **after** the founders' story, providing evidence to back up what they witnessed.
 
-### Updated Files
-- `src/contexts/AuthContext.tsx` - Now uses Supabase Auth with email confirmation flow
-- `src/hooks/useData.ts` - All CRUD operations now use Supabase queries
-- `src/pages/Login.tsx` - Removed demo accounts, handles real auth
-- `src/pages/Signup.tsx` - Shows email confirmation screen after signup
-- `src/contexts/LanguageContext.tsx` - Added new translation keys for email flow
-- `src/data/demoData.ts` - Deprecated localStorage functions
-- `src/main.tsx` - Removed demo data initialization
+### New page flow
 
-## User Flow
+```text
+1. Hero (keep as-is)
+2. NEW — "Our Origin" / founders section (personal story of two young men)
+3. Crisis data + statistics (existing, moved down)
+4. Solution section (keep)
+5. Mission / Vision / Values (keep)
+6. What We Do (keep)
+7. CTA (keep)
+8. Footer (keep)
+```
 
-1. **Sign Up** → Enter email/password → Select role → See "Check your email" screen
-2. **Email Confirmation** → Click link in email
-3. **Login** → Enter credentials → Access dashboard
-4. **All data** is now persisted in Supabase (profiles, jobs, applications, messages)
+The current "Our Story" section (lines 157-172) will be **removed** and replaced by the new founders section placed right after the hero.
 
-## Required Supabase Tables
+### Changes by file
 
-The following tables must exist in your Supabase project:
-- `user_roles`
-- `professional_profiles`
-- `employer_profiles`
-- `jobs`
-- `applications`
-- `messages`
+**`src/contexts/LanguageContext.tsx`**
+- Update `about.subtitle` to reference the founders personally
+- Add new keys: `about.foundersTitle`, `about.foundersP1`, `about.foundersP2`, `about.foundersP3` — telling the story of two young farmers who lived the hiring struggle, saw neighbors leave for cities, and decided to build a solution
+- Remove or repurpose the old `about.ourStory`, `about.storyP1`, `about.storyP2` keys
 
-With proper RLS policies as provided in the setup instructions.
+**`src/pages/About.tsx`**
+- Insert a new "Founders" section immediately after the hero, before the crisis section — featuring a warm design with a `Users` or similar icon, and 2-3 paragraphs of the personal narrative
+- Remove the old "Our Story" section (lines 157-172)
+- Keep everything else in the same order
+
+### Content direction (both languages)
+
+The founders section will convey:
+1. Two young men who grew up working on farms and saw firsthand how hard it was to find reliable workers — and how good workers struggled to find opportunities
+2. They watched friends and neighbors leave for the cities, weakening rural communities
+3. They decided to use technology to bridge this gap, creating Trampo no Campo
+
