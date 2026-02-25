@@ -36,13 +36,6 @@ npm i
 npm run dev
 ```
 
-### Environment variables
-
-Create a `.env.local` file from `.env.example` and set:
-
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).
