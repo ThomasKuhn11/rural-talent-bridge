@@ -171,6 +171,10 @@ const translations: Translations = {
     'pt-BR': 'Candidatos',
     'en': 'Applicants',
   },
+  'nav.about': {
+    'pt-BR': 'Sobre Nós',
+    'en': 'About Us',
+  },
 
   // Dashboard
   'dashboard.welcome': {
