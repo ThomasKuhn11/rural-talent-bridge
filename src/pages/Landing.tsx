@@ -19,6 +19,9 @@ const Landing = () => {
             <span className="text-xl font-bold text-foreground">{t('landing.title')}</span>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/about')}>
+              {t('nav.about')}
+            </Button>
             <LanguageToggle />
             <Button variant="ghost" onClick={() => navigate('/login')}>
               {t('auth.login')}
@@ -51,9 +54,6 @@ const Landing = () => {
             </Button>
             <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="border-white !text-black hover:bg-white/10">
               {t('auth.login')}
-            </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/about')} className="gap-2">
-              {t('nav.about')}
             </Button>
           </div>
         </div>
