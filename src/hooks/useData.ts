@@ -8,6 +8,28 @@ import {
   Message 
 } from '@/types';
 
+const getCurrentUser = async () => {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return null;
+  return data.user;
+};
+
+const getCurrentUserRole = async () => {
+  const user = await getCurrentUser();
+  if (!user) return null;
+
+  const metaRole = user.user_metadata?.role;
+  if (metaRole === 'professional' || metaRole === 'employer') {
+    return metaRole;
+  }
+
+  const { data } = await supabase.from('user_roles').select('role').eq('user_id', user.id).maybeSingle();
+  if (data?.role === 'professional' || data?.role === 'employer') {
+    return data.role;
+  }
+  return null;
+};
+
 // Professional Profiles
 export const useProfessionalProfiles = () => {
   const [profiles, setProfiles] = useState<ProfessionalProfile[]>([]);
@@ -17,7 +39,7 @@ export const useProfessionalProfiles = () => {
     setIsLoading(true);
     const { data, error } = await supabase
       .from('professional_profiles')
-      .select('*');
+      .select('user_id, full_name, photo_url, city, state, main_role, years_experience, availability, bio, skills');
     
     if (error) {
       console.error('Error fetching professional profiles:', error);
@@ -50,10 +72,13 @@ export const useProfessionalProfiles = () => {
   }, [profiles]);
 
   const saveProfile = useCallback(async (profile: ProfessionalProfile) => {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
     const { error } = await supabase
       .from('professional_profiles')
       .upsert({
-        user_id: profile.userId,
+        user_id: user.id,
         full_name: profile.fullName,
         photo_url: profile.photoUrl,
         city: profile.city,
@@ -87,7 +112,7 @@ export const useEmployerProfiles = () => {
     setIsLoading(true);
     const { data, error } = await supabase
       .from('employer_profiles')
-      .select('*');
+      .select('user_id, company_name, city, state, employer_type, description, contact_phone');
     
     if (error) {
       console.error('Error fetching employer profiles:', error);
@@ -116,10 +141,13 @@ export const useEmployerProfiles = () => {
   }, [profiles]);
 
   const saveProfile = useCallback(async (profile: EmployerProfile) => {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
     const { error } = await supabase
       .from('employer_profiles')
       .upsert({
-        user_id: profile.userId,
+        user_id: user.id,
         company_name: profile.companyName,
         city: profile.city,
         state: profile.state,
@@ -150,7 +178,7 @@ export const useJobs = () => {
     setIsLoading(true);
     const { data, error } = await supabase
       .from('jobs')
-      .select('*')
+      .select('id, employer_id, title, city, state, job_type, requirements, salary, benefits, created_at')
       .order('created_at', { ascending: false });
     
     if (error) {
@@ -187,10 +215,13 @@ export const useJobs = () => {
   }, [jobs]);
 
   const addJob = useCallback(async (job: Omit<Job, 'id' | 'createdAt'>) => {
+    const user = await getCurrentUser();
+    if (!user) return null;
+
     const { data, error } = await supabase
       .from('jobs')
       .insert({
-        employer_id: job.employerId,
+        employer_id: user.id,
         title: job.title,
         city: job.city,
         state: job.state,
@@ -223,6 +254,9 @@ export const useJobs = () => {
   }, [fetchJobs]);
 
   const updateJob = useCallback(async (jobId: string, updates: Partial<Omit<Job, 'id' | 'createdAt' | 'employerId'>>) => {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
     const { error } = await supabase
       .from('jobs')
       .update({
@@ -234,7 +268,8 @@ export const useJobs = () => {
         salary: updates.salary,
         benefits: updates.benefits,
       })
-      .eq('id', jobId);
+      .eq('id', jobId)
+      .eq('employer_id', user.id);
     
     if (error) {
       console.error('Error updating job:', error);
@@ -246,10 +281,14 @@ export const useJobs = () => {
   }, [fetchJobs]);
 
   const deleteJob = useCallback(async (jobId: string) => {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
     const { error } = await supabase
       .from('jobs')
       .delete()
-      .eq('id', jobId);
+      .eq('id', jobId)
+      .eq('employer_id', user.id);
     
     if (error) {
       console.error('Error deleting job:', error);
@@ -270,10 +309,31 @@ export const useApplications = () => {
 
   const fetchApplications = useCallback(async () => {
     setIsLoading(true);
-    const { data, error } = await supabase
+    const user = await getCurrentUser();
+    const role = await getCurrentUserRole();
+
+    if (!user || !role) {
+      setApplications([]);
+      setIsLoading(false);
+      return;
+    }
+
+    let query = supabase
       .from('applications')
-      .select('*')
+      .select('id, job_id, professional_id, status, created_at')
       .order('created_at', { ascending: false });
+
+    if (role === 'professional') {
+      query = query.eq('professional_id', user.id);
+    } else {
+      query = supabase
+        .from('applications')
+        .select('id, job_id, professional_id, status, created_at, jobs!inner(employer_id)')
+        .eq('jobs.employer_id', user.id)
+        .order('created_at', { ascending: false });
+    }
+
+    const { data, error } = await query;
     
     if (error) {
       console.error('Error fetching applications:', error);
@@ -307,14 +367,16 @@ export const useApplications = () => {
     return applications.some(a => a.jobId === jobId && a.professionalId === professionalId);
   }, [applications]);
 
-  const applyToJob = useCallback(async (jobId: string, professionalId: string) => {
-    if (hasApplied(jobId, professionalId)) return null;
+  const applyToJob = useCallback(async (jobId: string, _professionalId: string) => {
+    const user = await getCurrentUser();
+    if (!user) return null;
+    if (hasApplied(jobId, user.id)) return null;
     
     const { data, error } = await supabase
       .from('applications')
       .insert({
         job_id: jobId,
-        professional_id: professionalId,
+        professional_id: user.id,
         status: 'applied',
       })
       .select()
@@ -336,6 +398,12 @@ export const useApplications = () => {
   }, [hasApplied, fetchApplications]);
 
   const updateApplicationStatus = useCallback(async (applicationId: string, status: Application['status']) => {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
+    const inScope = applications.some((application) => application.id === applicationId);
+    if (!inScope) return false;
+
     const { error } = await supabase
       .from('applications')
       .update({ status })
@@ -348,7 +416,7 @@ export const useApplications = () => {
     
     await fetchApplications();
     return true;
-  }, [fetchApplications]);
+  }, [applications, fetchApplications]);
 
   return { 
     applications, 
@@ -369,9 +437,17 @@ export const useMessages = () => {
 
   const fetchMessages = useCallback(async () => {
     setIsLoading(true);
+    const user = await getCurrentUser();
+    if (!user) {
+      setMessages([]);
+      setIsLoading(false);
+      return;
+    }
+
     const { data, error } = await supabase
       .from('messages')
-      .select('*')
+      .select('id, from_user_id, to_user_id, body, read, created_at')
+      .or(`from_user_id.eq.${user.id},to_user_id.eq.${user.id}`)
       .order('created_at', { ascending: true });
     
     if (error) {
@@ -416,10 +492,13 @@ export const useMessages = () => {
   }, [messages]);
 
   const sendMessage = useCallback(async (fromUserId: string, toUserId: string, body: string) => {
+    const user = await getCurrentUser();
+    if (!user || user.id !== fromUserId) return null;
+
     const { data, error } = await supabase
       .from('messages')
       .insert({
-        from_user_id: fromUserId,
+        from_user_id: user.id,
         to_user_id: toUserId,
         body,
         read: false,
@@ -444,10 +523,14 @@ export const useMessages = () => {
   }, [fetchMessages]);
 
   const markAsRead = useCallback(async (messageIds: string[]) => {
+    const user = await getCurrentUser();
+    if (!user || messageIds.length === 0) return false;
+
     const { error } = await supabase
       .from('messages')
       .update({ read: true })
-      .in('id', messageIds);
+      .in('id', messageIds)
+      .eq('to_user_id', user.id);
     
     if (error) {
       console.error('Error marking messages as read:', error);
