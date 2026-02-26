@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useMessages, useProfessionalProfiles, useEmployerProfiles } from '@/hooks/useData';
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
@@ -40,13 +41,13 @@ const Messages = () => {
   const getRecipientInfo = (recipientId: string) => {
     const professional = professionalProfiles.find(p => p.userId === recipientId);
     if (professional) {
-      return { name: professional.fullName, type: 'professional' };
+      return { name: professional.fullName, type: 'professional', photoUrl: professional.photoUrl };
     }
     const employer = employerProfiles.find(p => p.userId === recipientId);
     if (employer) {
-      return { name: employer.companyName, type: 'employer' };
+      return { name: employer.companyName, type: 'employer', photoUrl: employer.photoUrl };
     }
-    return { name: 'Usuário', type: 'unknown' };
+    return { name: 'Usuário', type: 'unknown', photoUrl: undefined };
   };
 
   // Mark messages as read when viewing conversation
@@ -117,13 +118,16 @@ const Messages = () => {
                   >
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
-                          {info.type === 'employer' ? (
-                            <Building2 className="h-6 w-6 text-muted-foreground" />
-                          ) : (
-                            <User className="h-6 w-6 text-muted-foreground" />
-                          )}
-                        </div>
+                        <Avatar className="h-12 w-12 flex-shrink-0">
+                          <AvatarImage src={info.photoUrl} alt={info.name} />
+                          <AvatarFallback className="bg-muted">
+                            {info.type === 'employer' ? (
+                              <Building2 className="h-6 w-6 text-muted-foreground" />
+                            ) : (
+                              <User className="h-6 w-6 text-muted-foreground" />
+                            )}
+                          </AvatarFallback>
+                        </Avatar>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <h3 className="font-semibold text-foreground truncate">{info.name}</h3>
@@ -173,13 +177,16 @@ const Messages = () => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <div className="h-10 w-10 bg-muted rounded-full flex items-center justify-center">
-            {recipientInfo.type === 'employer' ? (
-              <Building2 className="h-5 w-5 text-muted-foreground" />
-            ) : (
-              <User className="h-5 w-5 text-muted-foreground" />
-            )}
-          </div>
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={recipientInfo.photoUrl} alt={recipientInfo.name} />
+            <AvatarFallback className="bg-muted">
+              {recipientInfo.type === 'employer' ? (
+                <Building2 className="h-5 w-5 text-muted-foreground" />
+              ) : (
+                <User className="h-5 w-5 text-muted-foreground" />
+              )}
+            </AvatarFallback>
+          </Avatar>
           <div>
             <h2 className="font-semibold text-foreground">{recipientInfo.name}</h2>
           </div>

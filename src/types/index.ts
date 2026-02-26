@@ -23,6 +23,7 @@ export interface ProfessionalProfile {
 export interface EmployerProfile {
   userId: string;
   companyName: string;
+  photoUrl?: string;
   city: string;
   state: string;
   employerType: 'farm' | 'cooperative' | 'retailer' | 'service_provider';

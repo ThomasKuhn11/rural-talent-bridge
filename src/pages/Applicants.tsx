@@ -4,6 +4,7 @@ import { useJobs, useApplications, useProfessionalProfiles } from '@/hooks/useDa
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
@@ -123,8 +124,13 @@ const Applicants = () => {
                 <Card key={application.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start gap-4">
-                      <div className="h-14 w-14 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
-                        <User className="h-7 w-7 text-muted-foreground" />
+                      <div className="h-14 w-14 flex-shrink-0">
+                        <Avatar className="h-14 w-14">
+                          <AvatarImage src={professional.photoUrl} alt={professional.fullName} />
+                          <AvatarFallback className="bg-muted">
+                            <User className="h-7 w-7 text-muted-foreground" />
+                          </AvatarFallback>
+                        </Avatar>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
