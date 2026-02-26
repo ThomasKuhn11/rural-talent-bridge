@@ -15,7 +15,7 @@ import {
   Gift, 
   FileText, 
   ArrowLeft,
-  Check,
+  X,
   MessageSquare
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -26,7 +26,7 @@ const JobDetail = () => {
   const { user } = useAuth();
   const { getJob } = useJobs();
   const { profiles: employerProfiles } = useEmployerProfiles();
-  const { hasApplied, applyToJob } = useApplications();
+  const { hasApplied, applyToJob, withdrawApplication } = useApplications();
   const navigate = useNavigate();
 
   const job = id ? getJob(id) : null;
@@ -55,6 +55,14 @@ const JobDetail = () => {
     const result = applyToJob(job.id, user.id);
     if (result) {
       toast.success(t('jobs.applicationSent'));
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (!user) return;
+    const success = await withdrawApplication(job.id);
+    if (success) {
+      toast.success(t('jobs.applicationWithdrawn'));
     }
   };
 
@@ -128,9 +136,9 @@ const JobDetail = () => {
             {user?.role === 'professional' && (
               <div className="flex gap-3 pt-4">
                 {applied ? (
-                  <Button disabled className="flex-1 gap-2">
-                    <Check className="h-4 w-4" />
-                    {t('jobs.applied')}
+                  <Button onClick={handleWithdraw} variant="destructive" className="flex-1 gap-2">
+                    <X className="h-4 w-4" />
+                    {t('jobs.withdraw')}
                   </Button>
                 ) : (
                   <Button onClick={handleApply} className="flex-1 gap-2">

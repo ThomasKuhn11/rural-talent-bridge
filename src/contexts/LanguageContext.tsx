@@ -313,6 +313,14 @@ const translations: Translations = {
     'pt-BR': 'Candidatado',
     'en': 'Applied',
   },
+  'jobs.withdraw': {
+    'pt-BR': 'Retirar Candidatura',
+    'en': 'Withdraw Application',
+  },
+  'jobs.applicationWithdrawn': {
+    'pt-BR': 'Candidatura retirada com sucesso',
+    'en': 'Application withdrawn successfully',
+  },
   'jobs.postJob': {
     'pt-BR': 'Publicar Vaga',
     'en': 'Post Job',
