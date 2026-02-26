@@ -617,6 +617,20 @@ const translations: Translations = {
     'pt-BR': 'Aberto a Propostas',
     'en': 'Open to Offers',
   },
+
+  // Voice Transcription
+  'profile.bioVoice': {
+    'pt-BR': 'Fale sua bio',
+    'en': 'Speak your bio',
+  },
+  'profile.recording': {
+    'pt-BR': 'Gravando...',
+    'en': 'Recording...',
+  },
+  'profile.voiceNotSupported': {
+    'pt-BR': 'Voz não suportada',
+    'en': 'Voice not supported',
+  },
 };
 
 interface LanguageContextType {
