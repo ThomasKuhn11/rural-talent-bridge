@@ -14,6 +14,7 @@ import { User, MapPin, Briefcase, Phone, Building2, Save, X, Plus } from 'lucide
 import { toast } from 'sonner';
 import { ProfessionalProfile, EmployerProfile } from '@/types';
 import { VoiceTranscriptionButton } from '@/components/VoiceTranscriptionButton';
+import { ProfilePhotoUpload } from '@/components/ProfilePhotoUpload';
 
 const BRAZILIAN_STATES = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 
@@ -48,6 +49,7 @@ const Profile = () => {
   const [employerData, setEmployerData] = useState<EmployerProfile>({
     userId: user?.id || '',
     companyName: '',
+    photoUrl: '',
     city: '',
     state: '',
     employerType: 'farm',
@@ -157,9 +159,18 @@ const Profile = () => {
                 {t('auth.professional')}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+             <CardContent className="space-y-6">
               {isEditing ? (
                 <>
+                  <div className="flex justify-center">
+                    <ProfilePhotoUpload
+                      userId={user?.id || ''}
+                      currentPhotoUrl={professionalData.photoUrl}
+                      onPhotoUploaded={(url) => setProfessionalData(prev => ({ ...prev, photoUrl: url }))}
+                      isEditing
+                      fallbackIcon="user"
+                    />
+                  </div>
                   <div className="grid gap-4">
                     <div className="space-y-2">
                       <Label>{t('profile.fullName')}</Label>
@@ -285,9 +296,12 @@ const Profile = () => {
               ) : (
                 <>
                   <div className="flex items-start gap-4">
-                    <div className="h-20 w-20 bg-muted rounded-full flex items-center justify-center">
-                      <User className="h-10 w-10 text-muted-foreground" />
-                    </div>
+                    <ProfilePhotoUpload
+                      userId={user?.id || ''}
+                      currentPhotoUrl={professionalData.photoUrl}
+                      onPhotoUploaded={() => {}}
+                      fallbackIcon="user"
+                    />
                     <div className="flex-1">
                       <h2 className="text-xl font-semibold">{professionalData.fullName || 'Nome não informado'}</h2>
                       <p className="text-muted-foreground">{professionalData.mainRole || 'Função não informada'}</p>
@@ -341,9 +355,18 @@ const Profile = () => {
                 {t('auth.employer')}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+             <CardContent className="space-y-6">
               {isEditing ? (
                 <>
+                  <div className="flex justify-center">
+                    <ProfilePhotoUpload
+                      userId={user?.id || ''}
+                      currentPhotoUrl={employerData.photoUrl}
+                      onPhotoUploaded={(url) => setEmployerData(prev => ({ ...prev, photoUrl: url }))}
+                      isEditing
+                      fallbackIcon="building"
+                    />
+                  </div>
                   <div className="grid gap-4">
                     <div className="space-y-2">
                       <Label>{t('profile.companyName')}</Label>
@@ -424,9 +447,12 @@ const Profile = () => {
               ) : (
                 <>
                   <div className="flex items-start gap-4">
-                    <div className="h-20 w-20 bg-muted rounded-full flex items-center justify-center">
-                      <Building2 className="h-10 w-10 text-muted-foreground" />
-                    </div>
+                    <ProfilePhotoUpload
+                      userId={user?.id || ''}
+                      currentPhotoUrl={employerData.photoUrl}
+                      onPhotoUploaded={() => {}}
+                      fallbackIcon="building"
+                    />
                     <div className="flex-1">
                       <h2 className="text-xl font-semibold">{employerData.companyName || 'Empresa não informada'}</h2>
                       <Badge variant="secondary" className="mt-1">

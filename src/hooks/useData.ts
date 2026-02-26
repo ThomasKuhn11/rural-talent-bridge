@@ -112,7 +112,7 @@ export const useEmployerProfiles = () => {
     setIsLoading(true);
     const { data, error } = await supabase
       .from('employer_profiles')
-      .select('user_id, company_name, city, state, employer_type, description, contact_phone');
+      .select('user_id, company_name, photo_url, city, state, employer_type, description, contact_phone');
     
     if (error) {
       console.error('Error fetching employer profiles:', error);
@@ -121,6 +121,7 @@ export const useEmployerProfiles = () => {
       const mapped = (data || []).map((p: Record<string, unknown>) => ({
         userId: p.user_id as string,
         companyName: p.company_name as string || '',
+        photoUrl: p.photo_url as string || '',
         city: p.city as string || '',
         state: p.state as string || '',
         employerType: p.employer_type as 'farm' | 'cooperative' | 'retailer' | 'service_provider' || 'farm',
@@ -149,6 +150,7 @@ export const useEmployerProfiles = () => {
       .upsert({
         user_id: user.id,
         company_name: profile.companyName,
+        photo_url: profile.photoUrl,
         city: profile.city,
         state: profile.state,
         employer_type: profile.employerType,

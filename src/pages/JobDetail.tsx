@@ -5,6 +5,7 @@ import { useJobs, useEmployerProfiles, useApplications } from '@/hooks/useData';
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { 
   MapPin, 
@@ -148,9 +149,14 @@ const JobDetail = () => {
 
         {employer && (
           <Card>
-            <CardHeader>
+             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                <Building2 className="h-5 w-5 text-accent" />
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={employer.photoUrl} alt={employer.companyName} />
+                  <AvatarFallback className="bg-muted">
+                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                  </AvatarFallback>
+                </Avatar>
                 {t('auth.employer')}
               </CardTitle>
             </CardHeader>
