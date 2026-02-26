@@ -1,42 +1,29 @@
 
 
-## Plan: Restructure About Page with Personal Founders Story
+## Plan: Voice-to-Text for Professional Bio Field
 
-### What changes
+### Context
+Field workers in Brazil face high illiteracy rates. Adding a microphone button next to the bio textarea lets professionals dictate their bio instead of typing it. This uses the **browser's built-in Web Speech API** (SpeechRecognition) — no external services, no API keys, no edge functions needed. It works offline-capable and supports Portuguese natively.
 
-The page structure will be reordered so the **first section after the hero** tells the personal story of two young farmers who experienced the workforce shortage firsthand. The crisis data/statistics section moves **after** the founders' story, providing evidence to back up what they witnessed.
+### Changes
 
-### New page flow
+#### 1. New component: `src/components/VoiceTranscriptionButton.tsx`
+- A microphone toggle button using the Web Speech API (`webkitSpeechRecognition` / `SpeechRecognition`)
+- Sets language to `pt-BR` (matching app context) for accurate Portuguese transcription
+- Continuous recognition mode — user speaks naturally, text appends to the bio
+- Visual feedback: mic icon changes color/animates when recording
+- Graceful fallback: if browser doesn't support Speech API, button is hidden
 
-```text
-1. Hero (keep as-is)
-2. NEW — "Our Origin" / founders section (personal story of two young men)
-3. Crisis data + statistics (existing, moved down)
-4. Solution section (keep)
-5. Mission / Vision / Values (keep)
-6. What We Do (keep)
-7. CTA (keep)
-8. Footer (keep)
-```
+#### 2. Update `src/pages/Profile.tsx`
+- Import and render `VoiceTranscriptionButton` next to the bio `Textarea` (only when editing, only for professional users)
+- The button appends transcribed text to the current bio value
 
-The current "Our Story" section (lines 157-172) will be **removed** and replaced by the new founders section placed right after the hero.
+#### 3. Update `src/contexts/LanguageContext.tsx`
+- Add translation keys: `profile.bioVoice` ("Speak your bio" / "Fale sua bio"), `profile.recording` ("Recording..." / "Gravando..."), `profile.voiceNotSupported` ("Voice not supported" / "Voz não suportada")
 
-### Changes by file
-
-**`src/contexts/LanguageContext.tsx`**
-- Update `about.subtitle` to reference the founders personally
-- Add new keys: `about.foundersTitle`, `about.foundersP1`, `about.foundersP2`, `about.foundersP3` — telling the story of two young farmers who lived the hiring struggle, saw neighbors leave for cities, and decided to build a solution
-- Remove or repurpose the old `about.ourStory`, `about.storyP1`, `about.storyP2` keys
-
-**`src/pages/About.tsx`**
-- Insert a new "Founders" section immediately after the hero, before the crisis section — featuring a warm design with a `Users` or similar icon, and 2-3 paragraphs of the personal narrative
-- Remove the old "Our Story" section (lines 157-172)
-- Keep everything else in the same order
-
-### Content direction (both languages)
-
-The founders section will convey:
-1. Two young men who grew up working on farms and saw firsthand how hard it was to find reliable workers — and how good workers struggled to find opportunities
-2. They watched friends and neighbors leave for the cities, weakening rural communities
-3. They decided to use technology to bridge this gap, creating Trampo no Campo
+### Technical Details
+- Uses `window.SpeechRecognition || window.webkitSpeechRecognition` (supported in Chrome, Edge, Safari, Android browsers — covers the vast majority of mobile users in Brazil)
+- `continuous = true` and `interimResults = true` for real-time feedback
+- `lang = 'pt-BR'` for Portuguese recognition
+- No backend needed — runs entirely in the browser
 
