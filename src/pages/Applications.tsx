@@ -2,16 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useJobs, useApplications, useEmployerProfiles } from '@/hooks/useData';
+import { Button } from '@/components/ui/button';
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Building2, FileText, Calendar } from 'lucide-react';
+import { MapPin, Building2, FileText, Calendar, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Applications = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const { jobs } = useJobs();
-  const { getApplicationsByProfessional } = useApplications();
+  const { getApplicationsByProfessional, withdrawApplication } = useApplications();
   const { profiles: employerProfiles } = useEmployerProfiles();
   const navigate = useNavigate();
 
@@ -93,8 +95,24 @@ const Applications = () => {
                           {formatDate(application.createdAt)}
                         </div>
                       </div>
-                      <div>
+                      <div className="flex flex-col items-end gap-2">
                         {getStatusBadge(application.status)}
+                        {application.status === 'applied' && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive gap-1 h-7 px-2"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              withdrawApplication(job.id).then(success => {
+                                if (success) toast.success(t('jobs.applicationWithdrawn'));
+                              });
+                            }}
+                          >
+                            <X className="h-3 w-3" />
+                            {t('jobs.withdraw')}
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </CardContent>

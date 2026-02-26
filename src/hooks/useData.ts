@@ -420,6 +420,25 @@ export const useApplications = () => {
     return true;
   }, [applications, fetchApplications]);
 
+  const withdrawApplication = useCallback(async (jobId: string) => {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
+    const { error } = await supabase
+      .from('applications')
+      .delete()
+      .eq('job_id', jobId)
+      .eq('professional_id', user.id);
+    
+    if (error) {
+      console.error('Error withdrawing application:', error);
+      return false;
+    }
+    
+    await fetchApplications();
+    return true;
+  }, [fetchApplications]);
+
   return { 
     applications, 
     getApplicationsByProfessional, 
@@ -427,6 +446,7 @@ export const useApplications = () => {
     hasApplied, 
     applyToJob,
     updateApplicationStatus,
+    withdrawApplication,
     isLoading,
     refreshApplications: fetchApplications
   };
