@@ -14,6 +14,7 @@ import {
   Send,
   ArrowLeft
 } from 'lucide-react';
+import { VoiceTranscriptionButton } from '@/components/VoiceTranscriptionButton';
 import { cn } from '@/lib/utils';
 
 const Messages = () => {
@@ -239,6 +240,9 @@ const Messages = () => {
             placeholder={t('messages.typeMessage')}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
             className="flex-1"
+          />
+          <VoiceTranscriptionButton
+            onTranscript={(text) => setNewMessage(prev => prev ? `${prev} ${text}` : text)}
           />
           <Button onClick={handleSendMessage} size="icon" disabled={!newMessage.trim()}>
             <Send className="h-5 w-5" />
