@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { User, MapPin, Briefcase, Phone, Building2, Save, X, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { ProfessionalProfile, EmployerProfile } from '@/types';
+import { VoiceTranscriptionButton } from '@/components/VoiceTranscriptionButton';
 
 const BRAZILIAN_STATES = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 
@@ -237,12 +238,22 @@ const Profile = () => {
 
                     <div className="space-y-2">
                       <Label>{t('profile.bio')}</Label>
-                      <Textarea
-                        value={professionalData.bio}
-                        onChange={(e) => setProfessionalData(prev => ({ ...prev, bio: e.target.value }))}
-                        placeholder="Conte um pouco sobre sua experiência..."
-                        rows={4}
-                      />
+                      <div className="flex gap-2 items-start">
+                        <Textarea
+                          value={professionalData.bio}
+                          onChange={(e) => setProfessionalData(prev => ({ ...prev, bio: e.target.value }))}
+                          placeholder="Conte um pouco sobre sua experiência..."
+                          rows={4}
+                          className="flex-1"
+                        />
+                        <VoiceTranscriptionButton
+                          onTranscript={(text) => setProfessionalData(prev => ({
+                            ...prev,
+                            bio: prev.bio ? `${prev.bio} ${text}` : text
+                          }))}
+                          className="mt-1"
+                        />
+                      </div>
                     </div>
 
                     <div className="space-y-2">
