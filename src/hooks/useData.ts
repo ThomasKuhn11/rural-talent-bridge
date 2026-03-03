@@ -424,14 +424,20 @@ export const useApplications = () => {
     const user = await getCurrentUser();
     if (!user) return false;
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('applications')
       .delete()
       .eq('job_id', jobId)
-      .eq('professional_id', user.id);
+      .eq('professional_id', user.id)
+      .select();
     
     if (error) {
       console.error('Error withdrawing application:', error);
+      return false;
+    }
+
+    if (!data || data.length === 0) {
+      console.error('Withdraw failed: no rows deleted (RLS policy may be blocking)');
       return false;
     }
     
