@@ -25,7 +25,7 @@
     --popover-foreground: 0 0% 9%;
 
     /* Primary - Professional Blue */
-    --primary: 161 93% 30%;
+    --primary: 161 93% 22%;
     --primary-foreground: 151 80% 95%;
 
     /* Secondary - Light Gray */
@@ -37,8 +37,8 @@
     --muted-foreground: 0 0% 9%;
 
     /* Accent - Agricultural Green */
-    --accent: 166 76% 96%;
-    --accent-foreground: 173 80% 40%;
+    --accent: 166 60% 88%;
+    --accent-foreground: 173 80% 28%;
 
     /* Destructive - Red */
     --destructive: 0 72% 50%;
@@ -55,19 +55,19 @@
     /* Border & Input */
     --border: 0 0% 83%;
     --input: 0 0% 83%;
-    --ring: 161 93% 30%;
+    --ring: 161 93% 22%;
 
     --radius: 0.75rem;
 
     /* Sidebar */
     --sidebar-background: 220 20% 10%;
     --sidebar-foreground: 0 0% 9%;
-    --sidebar-primary: 161 93% 30%;
+    --sidebar-primary: 161 93% 22%;
     --sidebar-primary-foreground: 151 80% 95%;
     --sidebar-accent: 0 0% 32%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 83%;
-    --sidebar-ring: 161 93% 30%;
+    --sidebar-ring: 161 93% 22%;
     --chart-1: 158 64% 51%;
     --chart-2: 141 69% 58%;
     --chart-3: 172 66% 50%;
@@ -99,7 +99,7 @@
     --popover: 0 0% 25%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 158 64% 51%;
+    --primary: 158 64% 38%;
     --primary-foreground: 165 91% 9%;
 
     --secondary: 0 0% 45%;
@@ -108,8 +108,8 @@
     --muted: 0 0% 45%;
     --muted-foreground: 0 0% 98%;
 
-    --accent: 178 84% 10%;
-    --accent-foreground: 172 66% 50%;
+    --accent: 178 84% 8%;
+    --accent-foreground: 172 66% 38%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 85% 97%;
@@ -122,16 +122,16 @@
 
     --border: 0 0% 32%;
     --input: 0 0% 32%;
-    --ring: 158 64% 51%;
+    --ring: 158 64% 38%;
 
     --sidebar-background: 220 20% 8%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 158 64% 51%;
+    --sidebar-primary: 158 64% 38%;
     --sidebar-primary-foreground: 165 91% 9%;
-    --sidebar-accent: 172 66% 50%;
-    --sidebar-accent-foreground: 178 84% 10%;
+    --sidebar-accent: 172 66% 38%;
+    --sidebar-accent-foreground: 178 84% 8%;
     --sidebar-border: 0 0% 32%;
-    --sidebar-ring: 158 64% 51%;
+    --sidebar-ring: 158 64% 38%;
     --chart-1: 156 71% 66%;
     --chart-2: 141 76% 73%;
     --chart-3: 170 76% 64%;
