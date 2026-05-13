@@ -61,7 +61,7 @@ const Dashboard = () => {
         {/* Welcome Section */}
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-            {t('dashboard.welcome')}, {profileName || user?.email.split('@')[0]}! 👋
+            {t('dashboard.welcome')}!
           </h1>
           {!profileName && (
             <p className="text-muted-foreground">
